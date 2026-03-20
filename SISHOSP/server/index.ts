@@ -90,15 +90,14 @@ const publicSurveyLimiter = rateLimit({
   skipSuccessfulRequests: true, // Don't count successful requests, only failed attempts
 });
 
-// Apply general rate limiting - TEMPORARILY DISABLED FOR TESTING
-// app.use(generalLimiter);
+// SECURITY: Apply rate limiting to all routes
+app.use(generalLimiter);
 
-// Apply stricter rate limiting to specific routes - TEMPORARILY DISABLED FOR TESTING
-// app.use("/api/auth", authLimiter);
+// SECURITY: Stricter rate limiting for authentication routes
+app.use("/api/auth", authLimiter);
 
-// TEMPORARILY DISABLED FOR WEBHOOK DEBUGGING
-// app.use("/api/whatsapp", webhookLimiter); // Keep WhatsApp rate limiting for security
-console.log('⚠️ WhatsApp rate limiter DISABLED for debugging');
+// SECURITY: Rate limiting for WhatsApp webhook routes
+app.use("/api/whatsapp", webhookLimiter);
 
 // SECURITY: Additional production headers
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -268,11 +267,7 @@ app.use((req, res, next) => {
 
     // Start server with proper error handling
     await new Promise<void>((resolve, reject) => {
-      const serverInstance = server.listen({
-        port,
-        host,
-        reusePort: true,
-      }, (err?: Error) => {
+      const serverInstance = server.listen(port, host, (err?: Error) => {
         if (err) {
           console.error(`Failed to start server on ${host}:${port}`, err);
           reject(err);

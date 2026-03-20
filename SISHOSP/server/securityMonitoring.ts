@@ -22,9 +22,8 @@ export class SecurityMonitor {
     try {
       return await storage.isIPBlocked(ipAddress);
     } catch (error) {
-      console.error('🚨 CRITICAL: Error checking IP block status, denying access for safety:', error);
+      console.error('🚨 CRITICAL: Failed to check IP block status, denying access for safety:', (error as Error).message);
       // FAIL-CLOSED: If we can't check security status, deny access
-      await this.logSecurityEvent('SECURITY_CHECK_FAILURE', 'CRITICAL', { ip: ipAddress } as any, null, `Failed to check IP block status: ${error.message}`);
       return true; // DENY ACCESS when security systems fail
     }
   }
@@ -34,9 +33,8 @@ export class SecurityMonitor {
     try {
       return await storage.isUserLocked(username);
     } catch (error) {
-      console.error('🚨 CRITICAL: Error checking user lock status, denying access for safety:', error);
+      console.error('🚨 CRITICAL: Failed to check user lock status, denying access for safety:', (error as Error).message);
       // FAIL-CLOSED: If we can't check security status, deny access
-      await this.logSecurityEvent('SECURITY_CHECK_FAILURE', 'CRITICAL', { ip: 'unknown' } as any, username, `Failed to check user lock status: ${error.message}`);
       return true; // DENY ACCESS when security systems fail
     }
   }
@@ -302,11 +300,38 @@ export class SecurityMonitor {
     }
   }
 
-  // Rate limiting middleware - DESABILITADO conforme solicitação do usuário
+  // Rate limiting middleware - verifica bloqueios de IP e usuário antes de processar
   static rateLimitMiddleware() {
     return async (req: Request, res: Response, next: NextFunction) => {
-      // Bloqueio por tentativas de login desabilitado
-      next();
+      try {
+        const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+
+        // Verificar se o IP está bloqueado
+        const ipBlocked = await SecurityMonitor.isIPBlocked(ipAddress);
+        if (ipBlocked) {
+          console.warn(`🚫 Request blocked - IP bloqueado: ${ipAddress}`);
+          return res.status(429).json({
+            error: 'Acesso temporariamente bloqueado. Tente novamente mais tarde.'
+          });
+        }
+
+        // Verificar se o usuário autenticado está bloqueado
+        if ((req as any).user?.username) {
+          const userLocked = await SecurityMonitor.isUserLocked((req as any).user.username);
+          if (userLocked) {
+            console.warn(`🚫 Request blocked - usuário bloqueado: ${(req as any).user.username}`);
+            return res.status(429).json({
+              error: 'Conta temporariamente bloqueada. Tente novamente mais tarde.'
+            });
+          }
+        }
+
+        next();
+      } catch (error) {
+        // Fail-closed: bloquear em caso de erro ao consultar o banco
+        console.error('❌ SecurityMonitor.rateLimitMiddleware error (fail-closed):', error);
+        return res.status(503).json({ error: 'Serviço temporariamente indisponível.' });
+      }
     };
   }
 
@@ -318,7 +343,7 @@ export class SecurityMonitor {
         return;
       }
 
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: process.env.GMAIL_USER,
@@ -328,7 +353,7 @@ export class SecurityMonitor {
 
       const alertEmail = {
         from: process.env.GMAIL_USER,
-        to: 'ramonwagui@gmail.com', // Admin email
+        to: process.env.SECURITY_ALERT_EMAIL || 'admin@localhost', // Admin email (configure SECURITY_ALERT_EMAIL)
         subject: `🚨 Alerta de Segurança - ${event.severity} - Exu Saúde - Sistema de Atendimento Médico`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">

@@ -68,8 +68,8 @@ function sanitizeString(str: string): string {
     ALLOWED_ATTR: [] 
   });
   
-  // Remove SQL injection patterns
-  sanitized = sanitized.replace(/('|(\\)?;|--|\/\*|\*\/)/g, '');
+  // Nota: Não remover caracteres especiais como apóstrofos aqui pois quebra
+  // nomes válidos (ex: D'Silva). Proteção SQL injection está nas queries parametrizadas do ORM.
   
   // Remove potential XSS patterns
   sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
