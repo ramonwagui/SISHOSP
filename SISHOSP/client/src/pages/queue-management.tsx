@@ -291,14 +291,14 @@ export default function QueueManagementPage() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", { 
+      const response = await fetch("/api/logout", {
         method: "POST",
         credentials: "include",
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         window.location.href = data.redirect || "/auth";
@@ -312,7 +312,7 @@ export default function QueueManagementPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="ag-anim-fade-scale min-h-screen bg-slate-50 pb-12">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -350,109 +350,95 @@ export default function QueueManagementPage() {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                  <Users className="h-5 w-5 text-blue-600 dark:text-blue-300" />
-                </div>
-                Aguardando
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.aguardando}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Na fila agora</p>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+          <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="ag-icon-wrap bg-blue-100 text-blue-600">
+                <Users className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-600">Aguardando</h3>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-blue-600">{stats.aguardando}</div>
+              <p className="text-xs text-gray-500 mt-1">Na fila agora</p>
+            </div>
+          </div>
 
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                <div className="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                  <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-300" />
-                </div>
-                Chamados
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{stats.chamado}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Aguardando médico</p>
-            </CardContent>
-          </Card>
+          <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="ag-icon-wrap bg-yellow-100 text-yellow-600">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-600">Chamados</h3>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-yellow-600">{stats.chamado}</div>
+              <p className="text-xs text-gray-500 mt-1">Aguardando médico</p>
+            </div>
+          </div>
 
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-                  <User className="h-5 w-5 text-green-600 dark:text-green-300" />
-                </div>
-                Em Atendimento
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.emAtendimento}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Com médico</p>
-            </CardContent>
-          </Card>
+          <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="ag-icon-wrap bg-green-100 text-green-600">
+                <User className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-600">Em Atendimento</h3>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-green-600">{stats.emAtendimento}</div>
+              <p className="text-xs text-gray-500 mt-1">Com médico</p>
+            </div>
+          </div>
 
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                  <CheckCircle className="h-5 w-5 text-purple-600 dark:text-purple-300" />
-                </div>
-                Finalizados Hoje
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.finalizado}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Atendimentos concluídos</p>
-            </CardContent>
-          </Card>
+          <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="ag-icon-wrap bg-purple-100 text-purple-600">
+                <CheckCircle className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-600">Finalizados Hoje</h3>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-600">{stats.finalizado}</div>
+              <p className="text-xs text-gray-500 mt-1">Atendimentos concluídos</p>
+            </div>
+          </div>
 
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                  <Calendar className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                </div>
-                Total Ativo
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.total}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Na fila agora</p>
-            </CardContent>
-          </Card>
+          <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="ag-icon-wrap bg-gray-100 text-gray-600">
+                <Calendar className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-600">Total Ativo</h3>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-gray-900">{stats.total}</div>
+              <p className="text-xs text-gray-500 mt-1">Na fila agora</p>
+            </div>
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="grid grid-cols-1 gap-8">
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Users className="h-5 w-5" />
-                    Fila Ativa
-                  </CardTitle>
-                  <CardDescription>
-                    Pacientes aguardando atendimento
-                  </CardDescription>
-                </div>
-                <Button
-                  onClick={() => setShowForm(true)}
-                  data-testid="button-add-to-queue"
-                  className="shadow-md"
-                  size="lg"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Adicionar Paciente
-                </Button>
+          <div className="ag-card max-h-[800px] flex flex-col">
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <Users className="h-5 w-5 text-blue-600" />
+                  Fila Ativa
+                </h2>
+                <p className="text-sm text-gray-500">Pacientes aguardando atendimento</p>
               </div>
-            </CardHeader>
-            <CardContent>
+              <Button
+                onClick={() => setShowForm(true)}
+                data-testid="button-add-to-queue"
+                className="ag-btn-glow bg-blue-600 text-white hover:bg-blue-700 rounded-xl"
+                size="lg"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Adicionar Paciente
+              </Button>
+            </div>
+            <div className="p-6 overflow-y-auto">
               {isLoadingQueue ? (
                 <div className="text-center py-8 text-gray-500">Carregando fila...</div>
               ) : queueEntries.length === 0 ? (
@@ -464,7 +450,7 @@ export default function QueueManagementPage() {
                   {queueEntries.map((entry) => (
                     <div
                       key={entry.id}
-                      className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow"
+                      className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
                       data-testid={`queue-entry-${entry.id}`}
                     >
                       <div className="flex justify-between items-start gap-4">
@@ -522,7 +508,7 @@ export default function QueueManagementPage() {
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Tempo de espera em tempo real */}
                           {entry.status === "aguardando" && (
                             <div className="mt-3">
@@ -563,8 +549,8 @@ export default function QueueManagementPage() {
                   ))}
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Add to Queue Dialog */}
@@ -594,7 +580,7 @@ export default function QueueManagementPage() {
                       const cpfMatch = searchCpf.length > 0 && patientCpf.includes(searchCpf);
                       return nameMatch || cpfMatch;
                     });
-                    
+
                     return (
                       <FormItem className="flex flex-col">
                         <FormLabel>Paciente *</FormLabel>
@@ -608,7 +594,7 @@ export default function QueueManagementPage() {
                                 className="w-full justify-between font-normal"
                                 data-testid="select-patient"
                               >
-                                {selectedPatient 
+                                {selectedPatient
                                   ? `${selectedPatient.name} - CPF: ${selectedPatient.cpf}`
                                   : "Digite nome ou CPF para buscar..."}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -634,9 +620,8 @@ export default function QueueManagementPage() {
                                 filteredPatients.slice(0, 50).map((patient) => (
                                   <div
                                     key={patient.id}
-                                    className={`flex items-center px-3 py-2 cursor-pointer hover:bg-accent ${
-                                      field.value === patient.id ? "bg-accent" : ""
-                                    }`}
+                                    className={`flex items-center px-3 py-2 cursor-pointer hover:bg-accent ${field.value === patient.id ? "bg-accent" : ""
+                                      }`}
                                     onClick={() => {
                                       field.onChange(patient.id);
                                       setPatientPopoverOpen(false);
@@ -644,9 +629,8 @@ export default function QueueManagementPage() {
                                     }}
                                   >
                                     <Check
-                                      className={`mr-2 h-4 w-4 ${
-                                        field.value === patient.id ? "opacity-100" : "opacity-0"
-                                      }`}
+                                      className={`mr-2 h-4 w-4 ${field.value === patient.id ? "opacity-100" : "opacity-0"
+                                        }`}
                                     />
                                     {patient.name} - CPF: {patient.cpf}
                                   </div>
@@ -667,7 +651,7 @@ export default function QueueManagementPage() {
                     <UserPlus className="h-5 w-5 text-purple-600" />
                     <span className="font-medium text-purple-800 dark:text-purple-300">Acompanhante (opcional)</span>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-3">
                     <FormField
                       control={form.control}

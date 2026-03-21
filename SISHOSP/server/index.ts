@@ -91,10 +91,14 @@ const publicSurveyLimiter = rateLimit({
 });
 
 // SECURITY: Apply rate limiting to all routes
-app.use(generalLimiter);
+if (process.env.NODE_ENV === 'production') {
+  app.use(generalLimiter);
+}
 
 // SECURITY: Stricter rate limiting for authentication routes
-app.use("/api/auth", authLimiter);
+if (process.env.NODE_ENV === 'production') {
+  app.use("/api/auth", authLimiter);
+}
 
 // SECURITY: Rate limiting for WhatsApp webhook routes
 app.use("/api/whatsapp", webhookLimiter);
@@ -103,27 +107,27 @@ app.use("/api/whatsapp", webhookLimiter);
 app.use((req: Request, res: Response, next: NextFunction) => {
   // Prevent MIME type sniffing
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  
+
   // Enable XSS protection
   res.setHeader('X-XSS-Protection', '1; mode=block');
-  
+
   // Prevent clickjacking - allow same origin for PDF viewer
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  
+
   // Prevent referrer information leakage
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
+
   // Feature Policy for enhanced security
-  res.setHeader('Permissions-Policy', 
+  res.setHeader('Permissions-Policy',
     'geolocation=(), microphone=(), camera=(), payment=(), usb=(), accelerometer=(), gyroscope=()');
-  
+
   // Cache control for sensitive pages
   if (req.path.startsWith('/api/') || req.path.includes('admin')) {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
   }
-  
+
   next();
 });
 
@@ -160,7 +164,7 @@ app.use((req, res, next) => {
       // Skip logging for frequent health checks to reduce noise
       const isHealthCheck = (path === "/api" || path === "/api/health") && req.method === "HEAD";
       const isSlowHealthCheck = isHealthCheck && duration > 10;
-      
+
       // Only log health checks if they're slow (potential issues)
       if (!isHealthCheck || isSlowHealthCheck) {
         let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
@@ -186,8 +190,8 @@ app.use((req, res, next) => {
   try {
     // Add health check routes (but not on root path to preserve web interface)
     app.get("/health", (req, res) => {
-      res.status(200).json({ 
-        status: "healthy", 
+      res.status(200).json({
+        status: "healthy",
         service: "Medical Appointment System",
         timestamp: new Date().toISOString(),
         uptime: process.uptime()
@@ -195,8 +199,8 @@ app.use((req, res, next) => {
     });
 
     app.get("/api/health", (req, res) => {
-      res.status(200).json({ 
-        status: "healthy", 
+      res.status(200).json({
+        status: "healthy",
         service: "Medical Appointment System API",
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
@@ -219,12 +223,12 @@ app.use((req, res, next) => {
         errorCount = 0;
         lastErrorReset = Date.now();
       }
-      
+
       errorCount++;
-      
+
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
-      
+
       // Enhanced error logging with context
       console.error(`[ERROR ${errorCount}/${ERROR_THRESHOLD}] ${status}: ${message}`, {
         path: _req.path,
@@ -232,14 +236,14 @@ app.use((req, res, next) => {
         userAgent: _req.get('User-Agent'),
         stack: err.stack?.split('\n').slice(0, 3).join('\n')
       });
-      
+
       // Circuit breaker: if too many errors, add delay
       if (errorCount >= ERROR_THRESHOLD) {
         console.warn(`⚠️ Circuit breaker activated - high error rate detected`);
         setTimeout(() => {
-          res.status(status).json({ 
-            message, 
-            note: "Sistema em modo de recuperação" 
+          res.status(status).json({
+            message,
+            note: "Sistema em modo de recuperação"
           });
         }, 1000);
       } else {
@@ -275,12 +279,12 @@ app.use((req, res, next) => {
           log(`serving on port ${port}`);
           console.log(`✅ Server successfully started at http://${host}:${port}`);
           console.log(`🏥 Exu Saúde - Sistema de Atendimento Médico - Sistema de Atendimento Médico`);
-          
+
           // Initialize cron service for automatic WhatsApp reminders after server is ready
           cronService.startCronJob();
           const cronStatus = cronService.getStatus();
           console.log(`📱 WhatsApp Cron Status:`, cronStatus);
-          
+
           // Initialize scheduler service for WhatsApp notifications (queue confirmations and surveys)
           schedulerService.start();
           console.log(`📅 WhatsApp Scheduler Service: ${schedulerService.isRunning() ? 'Running' : 'Not Running'}`);
@@ -288,7 +292,7 @@ app.use((req, res, next) => {
           // Initialize daily backup to Google Drive (runs at 02:00 AM every day)
           scheduleDailyBackup().catch(err => console.error('❌ Backup scheduler init error:', err));
           console.log(`💾 Daily backup to Google Drive scheduled (02:00 AM)`);
-          
+
           resolve();
         }
       });
