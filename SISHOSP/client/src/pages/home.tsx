@@ -286,33 +286,33 @@ export default function Home() {
 
   // Dashboard para enfermeiros - acesso a triagem e internação
   const renderNurseDashboard = () => (
-    <div className="space-y-6 ag-anim-float-in">
+    <div className="space-y-6 animate-fade-in-up">
       {/* Welcome Banner */}
-      <div className="ag-card p-6">
+      <div className="med-card p-6">
         <div className="flex items-center gap-3 mb-1">
-          <div className="ag-icon-wrap" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', color: '#fff' }}>
+          <div className="med-icon-wrap med-hero-warning text-white">
             <Activity className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-foreground">Área do Enfermeiro</h2>
-            <p className="text-sm text-muted-foreground">Selecione o módulo que deseja acessar</p>
+            <h2 className="text-lg font-semibold text-gray-900">Área do Enfermeiro</h2>
+            <p className="text-sm text-gray-500">Selecione o módulo que deseja acessar</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Triagem */}
-        <div className="ag-float rounded-2xl overflow-hidden">
-          <div className="ag-hero-amber p-8 text-white relative">
+        <div className="med-card med-card-interactive overflow-hidden">
+          <div className="med-hero-primary p-8 text-white relative">
             <div className="relative z-10">
-              <div className="ag-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
+              <div className="med-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
                 <Activity className="h-6 w-6" />
               </div>
               <h3 className="text-2xl font-bold mb-2">Triagem</h3>
               <p className="text-white/80 mb-6 text-sm leading-relaxed">Realize triagem de pacientes, classificação de risco e coleta de sinais vitais</p>
               <Button
                 onClick={() => setLocation('/triagem')}
-                className="bg-white text-amber-700 hover:bg-amber-50 font-semibold ag-btn-glow shadow-none"
+                className="bg-white text-primary hover:bg-gray-50 font-semibold"
                 data-testid="button-triage"
               >
                 <Activity className="mr-2 h-4 w-4" />
@@ -323,17 +323,17 @@ export default function Home() {
         </div>
 
         {/* Internação */}
-        <div className="ag-float rounded-2xl overflow-hidden">
-          <div className="ag-hero-indigo p-8 text-white relative">
+        <div className="med-card med-card-interactive overflow-hidden">
+          <div className="med-hero-secondary p-8 text-white relative">
             <div className="relative z-10">
-              <div className="ag-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
+              <div className="med-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
                 <Bed className="h-6 w-6" />
               </div>
               <h3 className="text-2xl font-bold mb-2">Internação</h3>
               <p className="text-white/80 mb-6 text-sm leading-relaxed">Gerencie internações, leitos disponíveis e evoluções diárias dos pacientes</p>
               <Button
                 onClick={() => setLocation('/internacao')}
-                className="bg-white text-indigo-700 hover:bg-indigo-50 font-semibold ag-btn-glow shadow-none"
+                className="bg-white text-secondary-foreground hover:bg-gray-50 font-semibold"
                 data-testid="button-internacao"
               >
                 <Bed className="mr-2 h-4 w-4" />
@@ -347,9 +347,9 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen" style={{ background: 'hsl(215 30% 97%)' }}>
-      {/* ═══════════════════════ HEADER ANTIGRAVITY ═══════════════════════ */}
-      <header className="ag-header sticky top-0 z-40">
+    <div className="min-h-screen bg-gray-50">
+      {/* ═══════════════════════ MEDICINA HEADER ═══════════════════════ */}
+      <header className="med-header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo + Identity */}
@@ -361,11 +361,11 @@ export default function Home() {
                   className="h-10 w-auto drop-shadow-sm"
                 />
               </div>
-              <div className="border-l border-border pl-3 min-w-0">
-                <h1 className="text-sm font-semibold text-foreground leading-tight truncate">
+              <div className="border-l border-gray-200 pl-3 min-w-0">
+                <h1 className="text-sm font-semibold text-gray-900 leading-tight truncate">
                   {userRole === 'doctor' ? 'Dr(a). ' : ''}{(user as any)?.name || (user as any)?.username || 'Usuário'}
                 </h1>
-                <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
+                <p className="text-[11px] text-gray-500 flex items-center gap-1.5">
                   {userRole === 'doctor' ? 'Portal Médico' : 'Sistema Hospitalar'}
                   <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/10 text-primary border border-primary/20">
                     {APP_VERSION}
@@ -393,7 +393,7 @@ export default function Home() {
               onClick={handleLogout}
               variant="outline"
               size="sm"
-              className="flex-shrink-0 text-destructive border-destructive/30 hover:bg-destructive/5 hover:border-destructive ag-btn-glow"
+              className="flex-shrink-0 text-destructive border-destructive/30 hover:bg-destructive/5 hover:border-destructive"
               data-testid="logout-button"
             >
               <LogOut className="mr-1.5 h-3.5 w-3.5" />
@@ -413,14 +413,14 @@ export default function Home() {
   // Dashboard específico para médicos
   function renderDoctorDashboard() {
     return (
-      <div className="space-y-8 ag-anim-float-in">
+      <div className="space-y-8 animate-fade-in-up">
         {/* Primary Action Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Atendimento - Fila */}
-          <div className="ag-float rounded-2xl overflow-hidden">
-            <div className="ag-hero-emerald p-8 text-white">
+          <div className="med-card med-card-interactive overflow-hidden">
+            <div className="med-hero-primary p-8 text-white">
               <div className="relative z-10">
-                <div className="ag-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
+                <div className="med-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
                   <UserCheck className="h-7 w-7" />
                 </div>
                 <h2 className="text-2xl font-bold mb-2">Atendimento · Fila</h2>
@@ -428,7 +428,7 @@ export default function Home() {
                   Chame e atenda pacientes da fila walk-in. Visualize triagem, preencha prontuários e gere documentos.
                 </p>
                 <Button
-                  className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-5 ag-btn-glow shadow-none"
+                  className="bg-white text-primary hover:bg-gray-50 font-semibold px-5"
                   onClick={() => setLocation('/fila-medico')}
                   data-testid="button-doctor-queue-main"
                 >
@@ -440,10 +440,10 @@ export default function Home() {
           </div>
 
           {/* Internação */}
-          <div className="ag-float rounded-2xl overflow-hidden">
-            <div className="ag-hero-indigo p-8 text-white">
+          <div className="med-card med-card-interactive overflow-hidden">
+            <div className="med-hero-secondary p-8 text-white">
               <div className="relative z-10">
-                <div className="ag-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
+                <div className="med-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
                   <Bed className="h-7 w-7" />
                 </div>
                 <h2 className="text-2xl font-bold mb-2">Internação</h2>
@@ -451,7 +451,7 @@ export default function Home() {
                   Gerenciamento de internações hospitalares, controle de leitos e registro de evoluções diárias.
                 </p>
                 <Button
-                  className="bg-white text-indigo-700 hover:bg-indigo-50 font-semibold px-5 ag-btn-glow shadow-none"
+                  className="bg-white text-secondary-foreground hover:bg-gray-50 font-semibold px-5"
                   onClick={() => setLocation('/internacao')}
                   data-testid="button-internacao-main"
                 >
@@ -508,14 +508,14 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Consultas de Hoje - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Calendar className="h-10 w-10 text-blue-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Consultas de Hoje</h3>
               </div>
-              <p className="text-gray-600 mb-6">Visualize e gerencie suas consultas agendadas para hoje</p>
+              <p className="text-gray-500 mb-6">Visualize e gerencie suas consultas agendadas para hoje</p>
               <Button
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
                 onClick={() => setLocation('/admin/appointments')}
                 data-testid="button-view-today-schedule"
               >
@@ -527,14 +527,14 @@ export default function Home() {
 
           {/* Prontuário Rápido - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Stethoscope className="h-10 w-10 text-amber-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Prontuário Rápido</h3>
               </div>
-              <p className="text-gray-600 mb-6">Registre atendimentos de forma rápida e prática</p>
+              <p className="text-gray-500 mb-6">Registre atendimentos de forma rápida e prática</p>
               <Button
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-amber-600/10 text-amber-600 hover:bg-amber-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-amber-600/10 text-amber-600 hover:bg-amber-600 hover:text-white transition-all font-medium rounded-xl"
                 onClick={() => setLocation('/prontuario-rapido')}
                 data-testid="button-quick-notes"
               >
@@ -545,15 +545,15 @@ export default function Home() {
           )}
 
           {/* Meus Pacientes */}
-          <div className="ag-card p-6 flex flex-col justify-between">
+          <div className="med-card p-6 flex flex-col justify-between">
             <div className="flex items-center mb-4">
               <Users className="h-10 w-10 text-green-600" />
               <h3 className="text-xl font-semibold text-gray-900 ml-3">Meus Pacientes</h3>
             </div>
-            <p className="text-gray-600 mb-6">Acesse o histórico completo dos seus pacientes</p>
+            <p className="text-gray-500 mb-6">Acesse o histórico completo dos seus pacientes</p>
             <Button
               onClick={handleViewAllPatients}
-              className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-green-600/10 text-green-600 hover:bg-green-600 hover:text-white transition-all font-medium rounded-xl"
+              className="w-full px-4 py-2 border-0 bg-green-600/10 text-green-600 hover:bg-green-600 hover:text-white transition-all font-medium rounded-xl"
               data-testid="button-my-patients"
             >
               <Users className="mr-2 h-4 w-4" />
@@ -563,15 +563,15 @@ export default function Home() {
 
           {/* Histórico Médico - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <FileText className="h-10 w-10 text-purple-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Histórico Médico</h3>
               </div>
-              <p className="text-gray-600 mb-6">Consulte registros e prontuários médicos</p>
+              <p className="text-gray-500 mb-6">Consulte registros e prontuários médicos</p>
               <Button
                 onClick={handleViewMedicalHistory}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-medical-history"
               >
                 <FileText className="mr-2 h-4 w-4" />
@@ -581,15 +581,15 @@ export default function Home() {
           )}
 
           {/* Documentos Médicos */}
-          <div className="ag-card p-6 flex flex-col justify-between">
+          <div className="med-card p-6 flex flex-col justify-between">
             <div className="flex items-center mb-4">
               <FileText className="h-10 w-10 text-teal-600" />
               <h3 className="text-xl font-semibold text-gray-900 ml-3">Documentos Médicos</h3>
             </div>
-            <p className="text-gray-600 mb-6">Crie e gerencie receitas, atestados e relatórios médicos</p>
+            <p className="text-gray-500 mb-6">Crie e gerencie receitas, atestados e relatórios médicos</p>
             <Button
               onClick={() => setLocation('/documentos-medicos')}
-              className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
+              className="w-full px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
               data-testid="button-medical-documents"
             >
               <FileText className="mr-2 h-4 w-4" />
@@ -599,15 +599,15 @@ export default function Home() {
 
           {/* Suporte à Decisão - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <BarChart3 className="h-10 w-10 text-indigo-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Suporte à Decisão</h3>
               </div>
-              <p className="text-gray-600 mb-6">CID-10, protocolos clínicos, calculadoras médicas e verificação de interações</p>
+              <p className="text-gray-500 mb-6">CID-10, protocolos clínicos, calculadoras médicas e verificação de interações</p>
               <Button
                 onClick={() => setLocation('/suporte-clinico')}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-indigo-600/10 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-indigo-600/10 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-clinical-support"
               >
                 <BarChart3 className="mr-2 h-4 w-4" />
@@ -618,15 +618,15 @@ export default function Home() {
 
           {/* Templates de Anamnese - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <ClipboardList className="h-10 w-10 text-teal-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Templates de Anamnese</h3>
               </div>
-              <p className="text-gray-600 mb-6">Crie e personalize templates de anamnese por especialidade</p>
+              <p className="text-gray-500 mb-6">Crie e personalize templates de anamnese por especialidade</p>
               <Button
                 onClick={() => setLocation('/admin/anamnesis-templates')}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-anamnesis-templates"
               >
                 <ClipboardList className="mr-2 h-4 w-4" />
@@ -637,15 +637,15 @@ export default function Home() {
 
           {/* Biblioteca de Protocolos Clínicos - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <BookOpen className="h-10 w-10 text-blue-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Protocolos Clínicos</h3>
               </div>
-              <p className="text-gray-600 mb-6">Biblioteca de protocolos e diretrizes médicas padronizadas</p>
+              <p className="text-gray-500 mb-6">Biblioteca de protocolos e diretrizes médicas padronizadas</p>
               <Button
                 onClick={() => setLocation('/admin/clinical-protocols')}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-clinical-protocols"
               >
                 <BookOpen className="mr-2 h-4 w-4" />
@@ -657,15 +657,15 @@ export default function Home() {
 
           {/* Farmácia - Estoque de Medicamentos - apenas para admin */}
           {userRole === 'admin' && (
-            <div className="ag-card p-6 flex flex-col justify-between">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Pill className="h-10 w-10 text-rose-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Farmácia</h3>
               </div>
-              <p className="text-gray-600 mb-6">Gerencie estoque de medicamentos, lotes e dispensação</p>
+              <p className="text-gray-500 mb-6">Gerencie estoque de medicamentos, lotes e dispensação</p>
               <Button
                 onClick={() => setLocation('/farmacia')}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-rose-600/10 text-rose-600 hover:bg-rose-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-rose-600/10 text-rose-600 hover:bg-rose-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-pharmacy"
               >
                 <Pill className="mr-2 h-4 w-4" />
@@ -677,7 +677,7 @@ export default function Home() {
         </div>
 
         {/* Interface de Abas para Médicos - Simplificada */}
-        <div className="ag-card">
+        <div className="med-card">
           <Tabs defaultValue={defaultTab} className="w-full">
             <div className="border-b border-gray-200 px-6 py-4">
               <TabsList className="grid w-full max-w-full" style={{ gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 5)}, minmax(0, 1fr))` }}>
@@ -851,7 +851,7 @@ export default function Home() {
               <p className="text-gray-600 mb-4">Acesse e gerencie informações dos pacientes</p>
               <Button
                 onClick={handleViewAllPatients}
-                className="w-full ag-btn-glow shadow-none px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
+                className="w-full px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-patients-quick"
               >
                 <Users className="mr-2 h-4 w-4" />
@@ -956,7 +956,7 @@ export default function Home() {
         )}
 
         {/* Interface de Abas */}
-        <div className="ag-card">
+        <div className="med-card">
           <Tabs defaultValue={defaultTab} className="w-full">
             <div className="border-b border-gray-200 px-6 py-4">
               <TabsList className="grid w-full max-w-full" style={{ gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 10)}, minmax(0, 1fr))` }}>
