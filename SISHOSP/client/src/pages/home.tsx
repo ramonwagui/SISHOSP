@@ -312,7 +312,7 @@ export default function Home() {
               <p className="text-white/80 mb-6 text-sm leading-relaxed">Realize triagem de pacientes, classificação de risco e coleta de sinais vitais</p>
               <Button
                 onClick={() => setLocation('/triagem')}
-                className="bg-white text-primary hover:bg-gray-50 font-semibold"
+                className="bg-white text-blue-600 hover:bg-gray-50 font-semibold"
                 data-testid="button-triage"
               >
                 <Activity className="mr-2 h-4 w-4" />
@@ -333,7 +333,7 @@ export default function Home() {
               <p className="text-white/80 mb-6 text-sm leading-relaxed">Gerencie internações, leitos disponíveis e evoluções diárias dos pacientes</p>
               <Button
                 onClick={() => setLocation('/internacao')}
-                className="bg-white text-secondary-foreground hover:bg-gray-50 font-semibold"
+                className="bg-white text-emerald-600 hover:bg-gray-50 font-semibold"
                 data-testid="button-internacao"
               >
                 <Bed className="mr-2 h-4 w-4" />
