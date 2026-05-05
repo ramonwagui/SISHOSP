@@ -118,58 +118,7 @@ export default function AdminAppointments() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => setLocation("/")}
-                data-testid="button-back-home"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Voltar
-              </Button>
-              <div className="flex items-center space-x-3">
-                <img src={hospitalLogo} alt="Hospital Logo" className="h-10 w-10" />
-                <div>
-                  <h1 className="text-lg font-semibold text-gray-900">
-                    Exu Saúde - Sistema de Atendimento Médico
-                  </h1>
-                  <p className="text-sm text-gray-600">Agendamentos</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              {user && (
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">
-                    {user.role === 'doctor' ? `Dr. ${user.name}` : user.name}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {user.role === 'doctor' && user.medicalSpecialty 
-                      ? `${user.medicalSpecialty} - CRM: ${user.crm}` 
-                      : user.role === 'admin' ? 'Administrador'
-                      : user.role === 'staff' ? 'Funcionário'
-                      : 'Visualizador'}
-                  </p>
-                </div>
-              )}
-              <Button
-                variant="outline"
-                onClick={handleLogout}
-                disabled={logoutMutation.isPending}
-                data-testid="button-logout"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sair
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

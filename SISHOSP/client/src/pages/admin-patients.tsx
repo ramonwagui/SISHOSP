@@ -12,11 +12,6 @@ interface AuthUser {
   name: string;
   role: string;
 }
-import hospitalLogo from "@assets/LOGO-HMJPS_1765285256517.png";
-import exuBemCuidadaLogo from "@assets/logo exubemcuidada_1762210247656.png";
-import secretariaSaudeLogo from "@assets/logo secretaria de saude_1762210247656.png";
-import ministerioSaudeLogo from "@assets/Ministério_da_Saúde_1762210247657.png";
-import susLogo from "@assets/sus-logo_1762210247657.png";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -138,68 +133,21 @@ export default function AdminPatients() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
-          <Button
-            onClick={() => setLocation("/")}
-            variant="outline"
-            data-testid="button-back-to-dashboard"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar ao Dashboard
-          </Button>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="text-red-600 border-red-600 hover:bg-red-50"
-            data-testid="logout-button"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sair
-          </Button>
+      <div className="mb-6 flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Gerenciamento de Pacientes</h1>
+          <p className="text-gray-500">Visualize e gerencie todos os pacientes cadastrados no sistema.</p>
         </div>
       </div>
       
       <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
         <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl">
           <CardTitle className="text-xl font-semibold">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-3">
-                  Gerenciamento de Pacientes
-                  <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {patients.length} cadastrados
-                  </span>
-                </div>
-                <div className="text-sm font-normal text-blue-100">Exu Saúde - Sistema de Atendimento Médico</div>
-              </div>
-              <div className="flex items-center gap-6">
-                <img 
-                  src={hospitalLogo} 
-                  alt="Exu Saúde - Sistema de Atendimento Médico" 
-                  className="h-16 w-auto bg-white p-1 rounded"
-                />
-                <img 
-                  src={exuBemCuidadaLogo} 
-                  alt="Exu Bem Cuidada" 
-                  className="h-14 w-auto"
-                />
-                <img 
-                  src={secretariaSaudeLogo} 
-                  alt="Secretaria de Saúde" 
-                  className="h-14 w-auto"
-                />
-                <img 
-                  src={ministerioSaudeLogo} 
-                  alt="Ministério da Saúde" 
-                  className="h-12 w-auto"
-                />
-                <img 
-                  src={susLogo} 
-                  alt="SUS" 
-                  className="h-14 w-auto"
-                />
-              </div>
+            <div className="flex items-center gap-3">
+              Pacientes Cadastrados
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">
+                {patients.length} total
+              </span>
             </div>
           </CardTitle>
         </CardHeader>
@@ -453,11 +401,7 @@ export default function AdminPatients() {
           </DialogHeader>
           {selectedPatient && (
             <PatientForm
-              initialData={{
-                ...selectedPatient,
-                gender: selectedPatient.gender as "masculino" | "feminino",
-                zoneType: selectedPatient.zoneType as "urbana" | "rural"
-              }}
+              initialData={selectedPatient as any}
               onSuccess={handleEditSuccess}
               submitLabel="Atualizar Paciente"
             />

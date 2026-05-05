@@ -293,15 +293,17 @@ export default function Home() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Módulo de Triagem */}
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 border border-orange-200 hover:shadow-md transition-shadow">
+          <div className="bg-blue-600 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-4">
-              <Activity className="h-10 w-10 text-orange-600" />
-              <h3 className="text-xl font-semibold text-gray-900 ml-3">Triagem</h3>
+              <div className="bg-blue-500/50 p-2 rounded-lg">
+                <Activity className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white ml-3">Triagem</h3>
             </div>
-            <p className="text-gray-600 mb-6">Realizar triagem de pacientes, classificação de risco e sinais vitais</p>
+            <p className="text-blue-100 mb-6">Realize triagem de pacientes, classificação de risco e coleta de sinais vitais</p>
             <Button 
               onClick={() => setLocation('/triagem')}
-              className="w-full bg-orange-600 hover:bg-orange-700"
+              className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
               data-testid="button-triage"
             >
               <Activity className="mr-2 h-4 w-4" />
@@ -310,15 +312,17 @@ export default function Home() {
           </div>
 
           {/* Módulo de Internação */}
-          <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg p-6 border border-indigo-200 hover:shadow-md transition-shadow">
+          <div className="bg-emerald-500 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-4">
-              <Bed className="h-10 w-10 text-indigo-600" />
-              <h3 className="text-xl font-semibold text-gray-900 ml-3">Internação</h3>
+              <div className="bg-emerald-400/50 p-2 rounded-lg">
+                <Bed className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white ml-3">Internação</h3>
             </div>
-            <p className="text-gray-600 mb-6">Gerenciar internações, leitos e evoluções de pacientes</p>
+            <p className="text-emerald-100 mb-6">Gerencie internações, leitos disponíveis e evoluções diárias dos pacientes</p>
             <Button 
               onClick={() => setLocation('/internacao')}
-              className="w-full bg-indigo-600 hover:bg-indigo-700"
+              className="bg-white text-emerald-600 hover:bg-gray-100 font-semibold"
               data-testid="button-internacao"
             >
               <Bed className="mr-2 h-4 w-4" />

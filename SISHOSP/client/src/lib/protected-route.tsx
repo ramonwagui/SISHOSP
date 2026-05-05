@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth.tsx";
 import { Loader2 } from "lucide-react";
 import { Redirect, Route } from "wouter";
+import { AppLayout } from "@/components/layout/app-layout";
 
 export function ProtectedRoute({
   path,
@@ -39,5 +40,12 @@ export function ProtectedRoute({
     );
   }
 
-  return <Route path={path} component={Component} />;
+  // Do not wrap specific standalone pages like queue display if they ever become protected
+  return (
+    <Route path={path}>
+      <AppLayout>
+        <Component />
+      </AppLayout>
+    </Route>
+  );
 }
