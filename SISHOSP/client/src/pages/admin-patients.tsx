@@ -12,6 +12,11 @@ interface AuthUser {
   name: string;
   role: string;
 }
+import hospitalLogo from "@assets/LOGO-HMJPS_1765285256517.png";
+import exuBemCuidadaLogo from "@assets/logo exubemcuidada_1762210247656.png";
+import secretariaSaudeLogo from "@assets/logo secretaria de saude_1762210247656.png";
+import ministerioSaudeLogo from "@assets/Ministério_da_Saúde_1762210247657.png";
+import susLogo from "@assets/sus-logo_1762210247657.png";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +38,7 @@ export default function AdminPatients() {
   const [isNewPatientDialogOpen, setIsNewPatientDialogOpen] = useState(false);
   const [isNewRNDialogOpen, setIsNewRNDialogOpen] = useState(false);
   const [isNewPcDDialogOpen, setIsNewPcDDialogOpen] = useState(false);
+  const [isNewIndigenteDialogOpen, setIsNewIndigenteDialogOpen] = useState(false);
 
   // Fetch current user
   const { data: user } = useQuery<AuthUser>({
@@ -109,16 +115,20 @@ export default function AdminPatients() {
     setIsNewPcDDialogOpen(false);
   };
 
+  const handleNewIndigenteSuccess = () => {
+    setIsNewIndigenteDialogOpen(false);
+  };
+
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", { 
+      const response = await fetch("/api/logout", {
         method: "POST",
         credentials: "include",
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         window.location.href = data.redirect || "/auth";
@@ -132,402 +142,523 @@ export default function AdminPatients() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Gerenciamento de Pacientes</h1>
-          <p className="text-gray-500">Visualize e gerencie todos os pacientes cadastrados no sistema.</p>
+    <div className="ag-anim-fade-scale min-h-screen bg-slate-50 pb-12">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6">
+          <div className="flex justify-between items-center">
+            <Button
+              onClick={() => setLocation("/")}
+              variant="outline"
+              data-testid="button-back-to-dashboard"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Voltar ao Dashboard
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="text-red-600 border-red-600 hover:bg-red-50"
+              data-testid="logout-button"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Sair
+            </Button>
+          </div>
         </div>
-      </div>
-      
-      <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-        <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl">
-          <CardTitle className="text-xl font-semibold">
-            <div className="flex items-center gap-3">
-              Pacientes Cadastrados
-              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">
-                {patients.length} total
-              </span>
-            </div>
-          </CardTitle>
-        </CardHeader>
 
-        <CardContent className="p-6">
-          {/* Search and Add Patient */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Buscar por nome, CPF ou cidade..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-                data-testid="input-search-patients"
-              />
-            </div>
-            
-            <div className="flex gap-2">
-              <Dialog open={isNewPatientDialogOpen} onOpenChange={setIsNewPatientDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-green-600 hover:bg-green-700" data-testid="button-add-patient">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Novo Paciente
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>Cadastrar Novo Paciente</DialogTitle>
-                  </DialogHeader>
-                  <PatientForm onSuccess={handleNewPatientSuccess} />
-                </DialogContent>
-              </Dialog>
-
-              <Dialog open={isNewRNDialogOpen} onOpenChange={setIsNewRNDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-teal-600 hover:bg-teal-700" data-testid="button-add-newborn">
-                    <Baby className="h-4 w-4 mr-2" />
-                    Novo RN
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                  <PatientForm 
-                    formMode="newbornOnly"
-                    onSuccess={handleNewRNSuccess} 
-                    submitLabel="Cadastrar Recém-Nascido"
+        <div className="ag-card shadow-[20px_0_40px_rgba(0,0,0,0.1)] overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+            <div className="text-xl font-semibold">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-3">
+                    Gerenciamento de Pacientes
+                    <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      {patients.length} cadastrados
+                    </span>
+                  </div>
+                  <div className="text-sm font-normal text-blue-100">Exu Saúde - Sistema de Atendimento Médico</div>
+                </div>
+                <div className="flex items-center gap-6">
+                  <img
+                    src={hospitalLogo}
+                    alt="Exu Saúde - Sistema de Atendimento Médico"
+                    className="h-16 w-auto bg-white p-1 rounded"
                   />
-                </DialogContent>
-              </Dialog>
-
-              <Dialog open={isNewPcDDialogOpen} onOpenChange={setIsNewPcDDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-purple-600 hover:bg-purple-700" data-testid="button-add-pcd">
-                    <Accessibility className="h-4 w-4 mr-2" />
-                    Novo PcD
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                  <PatientForm 
-                    formMode="pcdOnly"
-                    onSuccess={handleNewPcDSuccess} 
-                    submitLabel="Cadastrar Pessoa com Deficiência"
+                  <img
+                    src={exuBemCuidadaLogo}
+                    alt="Exu Bem Cuidada"
+                    className="h-14 w-auto"
                   />
-                </DialogContent>
-              </Dialog>
+                  <img
+                    src={secretariaSaudeLogo}
+                    alt="Secretaria de Saúde"
+                    className="h-14 w-auto"
+                  />
+                  <img
+                    src={ministerioSaudeLogo}
+                    alt="Ministério da Saúde"
+                    className="h-12 w-auto"
+                  />
+                  <img
+                    src={susLogo}
+                    alt="SUS"
+                    className="h-14 w-auto"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Patients Table */}
-          {!searchTerm ? (
-            <div className="text-center py-12">
-              <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                Pesquise um paciente
-              </h3>
-              <p className="text-gray-500">
-                Digite o nome, CPF ou cidade no campo de busca acima para encontrar pacientes.
-              </p>
+          <div className="p-6 bg-white/50 backdrop-blur-md">
+            {/* Search and Add Patient */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Buscar por nome, CPF ou cidade..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                  data-testid="input-search-patients"
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Dialog open={isNewPatientDialogOpen} onOpenChange={setIsNewPatientDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="ag-btn-glow bg-green-600 hover:bg-green-700 rounded-full" data-testid="button-add-patient">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Novo Paciente
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Cadastrar Novo Paciente</DialogTitle>
+                    </DialogHeader>
+                    <PatientForm onSuccess={handleNewPatientSuccess} />
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isNewRNDialogOpen} onOpenChange={setIsNewRNDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="ag-btn-glow bg-teal-600 hover:bg-teal-700 rounded-full" data-testid="button-add-newborn">
+                      <Baby className="h-4 w-4 mr-2" />
+                      Novo RN
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <PatientForm
+                      formMode="newbornOnly"
+                      onSuccess={handleNewRNSuccess}
+                      submitLabel="Cadastrar Recém-Nascido"
+                    />
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isNewPcDDialogOpen} onOpenChange={setIsNewPcDDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="ag-btn-glow bg-purple-600 hover:bg-purple-700 rounded-full" data-testid="button-add-pcd">
+                      <Accessibility className="h-4 w-4 mr-2" />
+                      Novo PcD
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <PatientForm
+                      formMode="pcdOnly"
+                      onSuccess={handleNewPcDSuccess}
+                      submitLabel="Cadastrar Pessoa com Deficiência"
+                    />
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isNewIndigenteDialogOpen} onOpenChange={setIsNewIndigenteDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="ag-btn-glow bg-amber-500 hover:bg-amber-600 rounded-full text-white" data-testid="button-add-indigente">
+                      <User className="h-4 w-4 mr-2" />
+                      Indigente
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Cadastrar Paciente Não Identificado (Indigente)</DialogTitle>
+                    </DialogHeader>
+                    <PatientForm
+                      onSuccess={handleNewIndigenteSuccess}
+                      submitLabel="Cadastrar Indigente"
+                      initialData={{
+                        name: "Desconhecido (Indigente)",
+                        cpf: "00000000000",
+                        rg: "Indigente",
+                        rgIssuingAgency: "",
+                        email: "",
+                        susCard: "",
+                        birthDate: "1900-01-01",
+                        gender: "masculino",
+                        whatsapp: "",
+                        phoneIsWhatsapp: false,
+                        landlinePhone: "",
+                        profession: "Indigente",
+                        occupation: "",
+                        motherName: "Desconhecida",
+                        address: "Desconhecido",
+                        addressNumber: "S/N",
+                        neighborhood: "Desconhecido",
+                        zoneType: "urbana",
+                        city: "Desconhecida",
+                        state: "PE",
+                        fatherName: "",
+                        religion: "",
+                        race: "",
+                        education: "",
+                        nationality: "Brasileira",
+                        birthPlace: "",
+                        isNewborn: false,
+                        newbornStatus: "",
+                        skinColor: "",
+                        isTwin: false,
+                        antibioticGiven: "",
+                        breastfeeding: "",
+                        otherFeeding: "",
+                        isPremature: false,
+                        gestationalAge: "",
+                        hadTransfusion: false,
+                        transfusionDate: "",
+                        referenceDate: "",
+                        birthWeight: "",
+                        newbornObservation: "",
+                        isPcd: false,
+                        disabilityType: "",
+                        disabilityCid: "",
+                        disabilityDegree: "",
+                        needsPermanentCompanion: false,
+                        accessibilityResources: "",
+                        hasBpcLoas: false,
+                        pcdObservation: "",
+                      }}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
-          ) : isLoading ? (
-            <div className="flex justify-center items-center py-8">
-              <p className="text-gray-500">Carregando pacientes...</p>
-            </div>
-          ) : filteredPatients.length === 0 ? (
-            <div className="text-center py-8">
-              <User className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Nenhum paciente encontrado
-              </h3>
-              <p className="text-gray-500">
-                Tente uma busca diferente ou cadastre um novo paciente.
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Prontuário</TableHead>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>CPF</TableHead>
-                    <TableHead>Idade</TableHead>
-                    <TableHead>Sexo</TableHead>
-                    <TableHead>WhatsApp</TableHead>
-                    <TableHead>Cidade</TableHead>
-                    <TableHead>Zona</TableHead>
-                    <TableHead>Cadastrado em</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredPatients.map((patient) => {
-                    const birthDate = new Date(patient.birthDate);
-                    const age = new Date().getFullYear() - birthDate.getFullYear();
-                    
-                    const createdAtDate = patient.createdAt ? new Date(patient.createdAt) : null;
-                    const formattedCreatedAt = createdAtDate 
-                      ? createdAtDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
-                      : '-';
-                    
-                    return (
-                      <TableRow key={patient.id} data-testid={`row-patient-${patient.id}`}>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-blue-500" />
-                            <span className="text-blue-600 font-semibold">
-                              {patient.medicalRecordNumber || '-'}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center gap-2">
-                            {patient.isNewborn ? (
-                              <Baby className="h-4 w-4 text-teal-500" />
-                            ) : patient.isPcd ? (
-                              <Accessibility className="h-4 w-4 text-purple-500" />
-                            ) : (
-                              <User className="h-4 w-4 text-gray-400" />
-                            )}
-                            <span>{patient.name}</span>
-                            {patient.isNewborn && (
-                              <Badge className="bg-teal-100 text-teal-700 hover:bg-teal-100 text-xs">RN</Badge>
-                            )}
-                            {patient.isPcd && (
-                              <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs">PcD</Badge>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>{formatCPF(patient.cpf)}</TableCell>
-                        <TableCell>{age} anos</TableCell>
-                        <TableCell>
-                          <Badge variant={patient.gender === "masculino" ? "default" : "secondary"}>
-                            {patient.gender === "masculino" ? "M" : "F"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Phone className="h-3 w-3 text-gray-400" />
-                            {patient.whatsapp}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3 text-gray-400" />
-                            {patient.city}, {patient.state}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={patient.zoneType === "urbana" ? "default" : "outline"}>
-                            {patient.zoneType === "urbana" ? "Urbana" : "Rural"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-gray-600">
-                            <Calendar className="h-3 w-3 text-gray-400" />
-                            {formattedCreatedAt}
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            {canEditPatients ? (
-                              <>
+
+            {/* Patients Table */}
+            {!searchTerm ? (
+              <div className="text-center py-12">
+                <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  Pesquise um paciente
+                </h3>
+                <p className="text-gray-500">
+                  Digite o nome, CPF ou cidade no campo de busca acima para encontrar pacientes.
+                </p>
+              </div>
+            ) : isLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <p className="text-gray-500">Carregando pacientes...</p>
+              </div>
+            ) : filteredPatients.length === 0 ? (
+              <div className="text-center py-8">
+                <User className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Nenhum paciente encontrado
+                </h3>
+                <p className="text-gray-500">
+                  Tente uma busca diferente ou cadastre um novo paciente.
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Prontuário</TableHead>
+                      <TableHead>Nome</TableHead>
+                      <TableHead>CPF</TableHead>
+                      <TableHead>Idade</TableHead>
+                      <TableHead>Sexo</TableHead>
+                      <TableHead>WhatsApp</TableHead>
+                      <TableHead>Cidade</TableHead>
+                      <TableHead>Zona</TableHead>
+                      <TableHead>Cadastrado em</TableHead>
+                      <TableHead className="text-right">Ações</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredPatients.map((patient) => {
+                      const birthDate = new Date(patient.birthDate);
+                      const age = new Date().getFullYear() - birthDate.getFullYear();
+
+                      const createdAtDate = patient.createdAt ? new Date(patient.createdAt) : null;
+                      const formattedCreatedAt = createdAtDate
+                        ? createdAtDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+                        : '-';
+
+                      return (
+                        <TableRow key={patient.id} data-testid={`row-patient-${patient.id}`}>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <FileText className="h-4 w-4 text-blue-500" />
+                              <span className="text-blue-600 font-semibold">
+                                {patient.medicalRecordNumber || '-'}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              {patient.isNewborn ? (
+                                <Baby className="h-4 w-4 text-teal-500" />
+                              ) : patient.isPcd ? (
+                                <Accessibility className="h-4 w-4 text-purple-500" />
+                              ) : (
+                                <User className="h-4 w-4 text-gray-400" />
+                              )}
+                              <span>{patient.name}</span>
+                              {patient.isNewborn && (
+                                <Badge className="bg-teal-100 text-teal-700 hover:bg-teal-100 text-xs">RN</Badge>
+                              )}
+                              {patient.isPcd && (
+                                <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs">PcD</Badge>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>{formatCPF(patient.cpf)}</TableCell>
+                          <TableCell>{age} anos</TableCell>
+                          <TableCell>
+                            <Badge variant={patient.gender === "masculino" ? "default" : "secondary"}>
+                              {patient.gender === "masculino" ? "M" : "F"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <Phone className="h-3 w-3 text-gray-400" />
+                              {patient.whatsapp}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <MapPin className="h-3 w-3 text-gray-400" />
+                              {patient.city}, {patient.state}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={patient.zoneType === "urbana" ? "default" : "outline"}>
+                              {patient.zoneType === "urbana" ? "Urbana" : "Rural"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 text-gray-600">
+                              <Calendar className="h-3 w-3 text-gray-400" />
+                              {formattedCreatedAt}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              {canEditPatients ? (
+                                <>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEditPatient(patient)}
+                                    data-testid={`button-edit-patient-${patient.id}`}
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </Button>
+
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-red-600 hover:text-red-700"
+                                        data-testid={`button-delete-patient-${patient.id}`}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>Excluir paciente</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          Tem certeza que deseja excluir o paciente <strong>{patient.name}</strong>?
+                                          Esta ação não pode ser desfeita.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                        <AlertDialogAction
+                                          onClick={() => handleDeletePatient(patient.id)}
+                                          className="bg-red-600 hover:bg-red-700"
+                                        >
+                                          Excluir
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              ) : (
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  onClick={() => handleEditPatient(patient)}
-                                  data-testid={`button-edit-patient-${patient.id}`}
+                                  onClick={() => handleViewPatient(patient)}
+                                  data-testid={`button-view-patient-${patient.id}`}
+                                  title="Visualizar paciente"
                                 >
-                                  <Edit className="h-4 w-4" />
+                                  <Eye className="h-4 w-4" />
                                 </Button>
-                                
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      className="text-red-600 hover:text-red-700"
-                                      data-testid={`button-delete-patient-${patient.id}`}
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>Excluir paciente</AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        Tem certeza que deseja excluir o paciente <strong>{patient.name}</strong>?
-                                        Esta ação não pode ser desfeita.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                      <AlertDialogAction
-                                        onClick={() => handleDeletePatient(patient.id)}
-                                        className="bg-red-600 hover:bg-red-700"
-                                      >
-                                        Excluir
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
-                              </>
-                            ) : (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleViewPatient(patient)}
-                                data-testid={`button-view-patient-${patient.id}`}
-                                title="Visualizar paciente"
-                              >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            )}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Edit Patient Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Editar Paciente</DialogTitle>
-          </DialogHeader>
-          {selectedPatient && (
-            <PatientForm
-              initialData={selectedPatient as any}
-              onSuccess={handleEditSuccess}
-              submitLabel="Atualizar Paciente"
-            />
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* View Patient Dialog (Read-only) */}
-      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <User className="h-5 w-5 text-blue-600" />
-              Dados do Paciente
-            </DialogTitle>
-          </DialogHeader>
-          {selectedPatient && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Nome Completo</p>
-                  <p className="text-sm font-semibold">{selectedPatient.name}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">CPF</p>
-                  <p className="text-sm font-semibold">{formatCPF(selectedPatient.cpf)}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Data de Nascimento</p>
-                  <p className="text-sm font-semibold">{selectedPatient.birthDate}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Gênero</p>
-                  <p className="text-sm font-semibold">{selectedPatient.gender === "masculino" ? "Masculino" : "Feminino"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">WhatsApp</p>
-                  <p className="text-sm font-semibold">{selectedPatient.whatsapp}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Nome da Mãe</p>
-                  <p className="text-sm font-semibold">{selectedPatient.motherName || "-"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Cartão SUS</p>
-                  <p className="text-sm font-semibold">{selectedPatient.susCard || "-"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-500">Prontuário</p>
-                  <p className="text-sm font-semibold">{selectedPatient.medicalRecordNumber || "-"}</p>
-                </div>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </div>
+            )}
+          </div>
+        </div>
 
-              <div className="border-t pt-4">
-                <h4 className="font-medium text-gray-700 mb-2">Endereço</h4>
+        {/* Edit Patient Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Editar Paciente</DialogTitle>
+            </DialogHeader>
+            {selectedPatient && (
+              <PatientForm
+                initialData={{
+                  ...selectedPatient,
+                  gender: selectedPatient.gender as "masculino" | "feminino",
+                  zoneType: selectedPatient.zoneType as "urbana" | "rural"
+                }}
+                onSuccess={handleEditSuccess}
+                submitLabel="Atualizar Paciente"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* View Patient Dialog (Read-only) */}
+        <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <User className="h-5 w-5 text-blue-600" />
+                Dados do Paciente
+              </DialogTitle>
+            </DialogHeader>
+            {selectedPatient && (
+              <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Logradouro</p>
-                    <p className="text-sm font-semibold">{selectedPatient.address}</p>
+                    <p className="text-sm font-medium text-gray-500">Nome Completo</p>
+                    <p className="text-sm font-semibold">{selectedPatient.name}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Número</p>
-                    <p className="text-sm font-semibold">{selectedPatient.addressNumber}</p>
+                    <p className="text-sm font-medium text-gray-500">CPF</p>
+                    <p className="text-sm font-semibold">{formatCPF(selectedPatient.cpf)}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Bairro</p>
-                    <p className="text-sm font-semibold">{selectedPatient.neighborhood}</p>
+                    <p className="text-sm font-medium text-gray-500">Data de Nascimento</p>
+                    <p className="text-sm font-semibold">{selectedPatient.birthDate}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Cidade/UF</p>
-                    <p className="text-sm font-semibold">{selectedPatient.city}, {selectedPatient.state}</p>
+                    <p className="text-sm font-medium text-gray-500">Gênero</p>
+                    <p className="text-sm font-semibold">{selectedPatient.gender === "masculino" ? "Masculino" : "Feminino"}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Zona</p>
-                    <p className="text-sm font-semibold">{selectedPatient.zoneType === "urbana" ? "Urbana" : "Rural"}</p>
+                    <p className="text-sm font-medium text-gray-500">WhatsApp</p>
+                    <p className="text-sm font-semibold">{selectedPatient.whatsapp}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-gray-500">Nome da Mãe</p>
+                    <p className="text-sm font-semibold">{selectedPatient.motherName || "-"}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-gray-500">Cartão SUS</p>
+                    <p className="text-sm font-semibold">{selectedPatient.susCard || "-"}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-gray-500">Prontuário</p>
+                    <p className="text-sm font-semibold">{selectedPatient.medicalRecordNumber || "-"}</p>
                   </div>
                 </div>
-              </div>
 
-              {selectedPatient.isNewborn && (
                 <div className="border-t pt-4">
-                  <h4 className="font-medium text-pink-700 mb-2 flex items-center gap-2">
-                    <Baby className="h-4 w-4" /> Dados do Recém-Nascido
-                  </h4>
-                  <div className="grid grid-cols-2 gap-4 bg-pink-50 p-3 rounded-lg">
+                  <h4 className="font-medium text-gray-700 mb-2">Endereço</h4>
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Peso ao Nascer</p>
-                      <p className="text-sm font-semibold">{selectedPatient.birthWeight ? `${selectedPatient.birthWeight}kg` : "-"}</p>
+                      <p className="text-sm font-medium text-gray-500">Logradouro</p>
+                      <p className="text-sm font-semibold">{selectedPatient.address}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Prematuro</p>
-                      <p className="text-sm font-semibold">{selectedPatient.isPremature ? "Sim" : "Não"}</p>
+                      <p className="text-sm font-medium text-gray-500">Número</p>
+                      <p className="text-sm font-semibold">{selectedPatient.addressNumber}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-gray-500">Bairro</p>
+                      <p className="text-sm font-semibold">{selectedPatient.neighborhood}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-gray-500">Cidade/UF</p>
+                      <p className="text-sm font-semibold">{selectedPatient.city}, {selectedPatient.state}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-gray-500">Zona</p>
+                      <p className="text-sm font-semibold">{selectedPatient.zoneType === "urbana" ? "Urbana" : "Rural"}</p>
                     </div>
                   </div>
                 </div>
-              )}
 
-              {selectedPatient.isPcd && (
-                <div className="border-t pt-4">
-                  <h4 className="font-medium text-purple-700 mb-2 flex items-center gap-2">
-                    <Accessibility className="h-4 w-4" /> Pessoa com Deficiência
-                  </h4>
-                  <div className="bg-purple-50 p-3 rounded-lg">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Tipo de Deficiência</p>
-                      <p className="text-sm font-semibold">{selectedPatient.disabilityType || "-"}</p>
-                    </div>
-                    {selectedPatient.pcdObservation && (
-                      <div className="space-y-1 mt-2">
-                        <p className="text-sm font-medium text-gray-500">Observações</p>
-                        <p className="text-sm font-semibold">{selectedPatient.pcdObservation}</p>
+                {selectedPatient.isNewborn && (
+                  <div className="border-t pt-4">
+                    <h4 className="font-medium text-pink-700 mb-2 flex items-center gap-2">
+                      <Baby className="h-4 w-4" /> Dados do Recém-Nascido
+                    </h4>
+                    <div className="grid grid-cols-2 gap-4 bg-pink-50 p-3 rounded-lg">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">Peso ao Nascer</p>
+                        <p className="text-sm font-semibold">{selectedPatient.birthWeight ? `${selectedPatient.birthWeight}kg` : "-"}</p>
                       </div>
-                    )}
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">Prematuro</p>
+                        <p className="text-sm font-semibold">{selectedPatient.isPremature ? "Sim" : "Não"}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="flex justify-end pt-4 border-t">
-                <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
-                  Fechar
-                </Button>
+                {selectedPatient.isPcd && (
+                  <div className="border-t pt-4">
+                    <h4 className="font-medium text-purple-700 mb-2 flex items-center gap-2">
+                      <Accessibility className="h-4 w-4" /> Pessoa com Deficiência
+                    </h4>
+                    <div className="bg-purple-50 p-3 rounded-lg">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">Tipo de Deficiência</p>
+                        <p className="text-sm font-semibold">{selectedPatient.disabilityType || "-"}</p>
+                      </div>
+                      {selectedPatient.pcdObservation && (
+                        <div className="space-y-1 mt-2">
+                          <p className="text-sm font-medium text-gray-500">Observações</p>
+                          <p className="text-sm font-semibold">{selectedPatient.pcdObservation}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-end pt-4 border-t">
+                  <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
+                    Fechar
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }

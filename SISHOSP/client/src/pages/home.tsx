@@ -138,44 +138,44 @@ export default function Home() {
   // Função para determinar quais abas são visíveis por role
   const getVisibleTabs = (userRole: string | undefined) => {
     if (!userRole) return [];
-    
+
     switch (userRole) {
       case 'admin':
         // Admin tem acesso a todas as funcionalidades
         return ['booking', 'appointments', 'calendar', 'patients', 'medical-history', 'reports', 'satisfaction', 'whatsapp', 'users', 'security', 'beds'];
-      
+
       case 'staff':
         // Staff tem acesso à maioria das funcionalidades, exceto gestão de usuários e segurança
         return ['booking', 'appointments', 'calendar', 'patients', 'medical-history', 'reports', 'satisfaction', 'whatsapp'];
-      
+
       case 'doctor':
         // Médicos têm acesso apenas a pacientes e histórico médico (sem agendamentos)
         return ['patients', 'medical-history'];
-      
+
       case 'viewer':
         // Viewers têm acesso apenas de visualização
         return ['appointments', 'calendar', 'reports'];
-      
+
       case 'triage':
         // Profissionais de triagem têm acesso exclusivo ao módulo de triagem
         return [];
-      
+
       case 'farmacia':
         // Profissionais de farmácia têm acesso exclusivo ao módulo de farmácia
         return [];
-      
+
       case 'laboratorio':
         // Profissionais de laboratório têm acesso exclusivo ao módulo de laboratório
         return [];
-      
+
       case 'radiologista':
         // Profissionais de radiologia têm acesso exclusivo ao módulo de radiologia
         return [];
-      
+
       case 'diretor':
         // Diretor tem acesso ao gerenciamento de usuários e relatórios de atendimentos
         return ['users', 'reports'];
-      
+
       default:
         return [];
     }
@@ -199,14 +199,14 @@ export default function Home() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", { 
+      const response = await fetch("/api/logout", {
         method: "POST",
         credentials: "include",
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         // Redirecionar para a página de auth
@@ -279,55 +279,67 @@ export default function Home() {
     if (userRole === 'doctor') {
       return renderDoctorDashboard();
     }
-    
+
     // Dashboard para outros roles (admin, staff, viewer)
     return renderStandardDashboard();
   };
 
   // Dashboard para enfermeiros - acesso a triagem e internação
   const renderNurseDashboard = () => (
-    <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Área do Enfermeiro</h2>
-        <p className="text-gray-600 mb-6">Selecione o módulo que deseja acessar:</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Módulo de Triagem */}
-          <div className="bg-blue-600 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center mb-4">
-              <div className="bg-blue-500/50 p-2 rounded-lg">
-                <Activity className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white ml-3">Triagem</h3>
-            </div>
-            <p className="text-blue-100 mb-6">Realize triagem de pacientes, classificação de risco e coleta de sinais vitais</p>
-            <Button 
-              onClick={() => setLocation('/triagem')}
-              className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-              data-testid="button-triage"
-            >
-              <Activity className="mr-2 h-4 w-4" />
-              Acessar Triagem
-            </Button>
+    <div className="space-y-6 animate-fade-in-up">
+      {/* Welcome Banner */}
+      <div className="med-card p-6">
+        <div className="flex items-center gap-3 mb-1">
+          <div className="med-icon-wrap med-hero-warning text-white">
+            <Activity className="h-5 w-5" />
           </div>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Área do Enfermeiro</h2>
+            <p className="text-sm text-gray-500">Selecione o módulo que deseja acessar</p>
+          </div>
+        </div>
+      </div>
 
-          {/* Módulo de Internação */}
-          <div className="bg-emerald-500 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center mb-4">
-              <div className="bg-emerald-400/50 p-2 rounded-lg">
-                <Bed className="h-8 w-8 text-white" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Triagem */}
+        <div className="med-card med-card-interactive overflow-hidden">
+          <div className="med-hero-primary p-8 text-white relative">
+            <div className="relative z-10">
+              <div className="med-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
+                <Activity className="h-6 w-6" />
               </div>
-              <h3 className="text-2xl font-bold text-white ml-3">Internação</h3>
+              <h3 className="text-2xl font-bold mb-2">Triagem</h3>
+              <p className="text-white/80 mb-6 text-sm leading-relaxed">Realize triagem de pacientes, classificação de risco e coleta de sinais vitais</p>
+              <Button
+                onClick={() => setLocation('/triagem')}
+                className="bg-white text-primary hover:bg-gray-50 font-semibold"
+                data-testid="button-triage"
+              >
+                <Activity className="mr-2 h-4 w-4" />
+                Acessar Triagem
+              </Button>
             </div>
-            <p className="text-emerald-100 mb-6">Gerencie internações, leitos disponíveis e evoluções diárias dos pacientes</p>
-            <Button 
-              onClick={() => setLocation('/internacao')}
-              className="bg-white text-emerald-600 hover:bg-gray-100 font-semibold"
-              data-testid="button-internacao"
-            >
-              <Bed className="mr-2 h-4 w-4" />
-              Acessar Internação
-            </Button>
+          </div>
+        </div>
+
+        {/* Internação */}
+        <div className="med-card med-card-interactive overflow-hidden">
+          <div className="med-hero-secondary p-8 text-white relative">
+            <div className="relative z-10">
+              <div className="med-icon-wrap mb-4" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', color: '#fff' }}>
+                <Bed className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Internação</h3>
+              <p className="text-white/80 mb-6 text-sm leading-relaxed">Gerencie internações, leitos disponíveis e evoluções diárias dos pacientes</p>
+              <Button
+                onClick={() => setLocation('/internacao')}
+                className="bg-white text-secondary-foreground hover:bg-gray-50 font-semibold"
+                data-testid="button-internacao"
+              >
+                <Bed className="mr-2 h-4 w-4" />
+                Acessar Internação
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -336,86 +348,91 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <div className="flex items-center justify-between gap-4">
-              {/* Logo Principal + Info */}
-              <div className="flex items-center gap-4">
-                <img 
-                  src={hospitalLogo} 
-                  alt="HMJPS" 
-                  className="h-16 w-auto"
+      {/* ═══════════════════════ MEDICINA HEADER ═══════════════════════ */}
+      <header className="med-header">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16 gap-4">
+            {/* Logo + Identity */}
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={hospitalLogo}
+                  alt="HMJPS"
+                  className="h-10 w-auto drop-shadow-sm"
                 />
-                <div className="border-l border-gray-300 pl-4">
-                  <h1 className="text-lg font-bold text-gray-900">
-                    Bem-vindo, {userRole === 'doctor' ? 'Dr(a). ' : ''}{(user as any)?.name || (user as any)?.username || 'Usuário'}!
-                  </h1>
-                  <p className="text-xs text-gray-600 flex items-center gap-2">
-                    {userRole === 'doctor' ? 'Portal Médico' : 'Sistema de Atendimento Médico'} - Exu Saúde
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-600 border border-blue-200">
-                      {APP_VERSION}
-                    </span>
+              </div>
+              <div className="border-l border-gray-200 pl-3 min-w-0">
+                <h1 className="text-sm font-semibold text-gray-900 leading-tight truncate">
+                  {userRole === 'doctor' ? 'Dr(a). ' : ''}{(user as any)?.name || (user as any)?.username || 'Usuário'}
+                </h1>
+                <p className="text-[11px] text-gray-500 flex items-center gap-1.5">
+                  {userRole === 'doctor' ? 'Portal Médico' : 'Sistema Hospitalar'}
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/10 text-primary border border-primary/20">
+                    {APP_VERSION}
+                  </span>
+                </p>
+                {userRole === 'doctor' && (user as any)?.medicalSpecialty && (user as any)?.crm && (
+                  <p className="text-[11px] text-primary flex items-center gap-1">
+                    <Stethoscope className="h-3 w-3" />
+                    {(user as any)?.medicalSpecialty} · CRM {(user as any)?.crm}
                   </p>
-                  {userRole === 'doctor' && (user as any)?.medicalSpecialty && (user as any)?.crm && (
-                    <p className="text-xs text-blue-600">
-                      <Stethoscope className="inline h-3 w-3 mr-1" />
-                      {(user as any)?.medicalSpecialty} • CRM: {(user as any)?.crm}
-                    </p>
-                  )}
-                </div>
+                )}
               </div>
-              {/* Logos Parceiros */}
-              <div className="hidden md:flex items-center gap-4">
-                <img src={exuBemCuidadaLogo} alt="Exu Bem Cuidada" className="h-12 w-auto" />
-                <img src={secretariaSaudeLogo} alt="Secretaria de Saúde" className="h-12 w-auto" />
-                <img src={ministerioSaudeLogo} alt="Ministério da Saúde" className="h-10 w-auto" />
-                <img src={susLogo} alt="SUS" className="h-12 w-auto" />
-              </div>
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="text-red-600 border-red-600 hover:bg-red-50"
-                data-testid="logout-button"
-              >
-                <LogOut className="mr-1 h-4 w-4" />
-                Sair
-              </Button>
             </div>
+
+            {/* Partner Logos */}
+            <div className="hidden lg:flex items-center gap-3 flex-1 justify-center">
+              <img src={exuBemCuidadaLogo} alt="Exu Bem Cuidada" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+              <img src={secretariaSaudeLogo} alt="Secretaria de Saúde" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+              <img src={ministerioSaudeLogo} alt="Ministério da Saúde" className="h-8 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+              <img src={susLogo} alt="SUS" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+            </div>
+
+            {/* Actions */}
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="flex-shrink-0 text-destructive border-destructive/30 hover:bg-destructive/5 hover:border-destructive"
+              data-testid="logout-button"
+            >
+              <LogOut className="mr-1.5 h-3.5 w-3.5" />
+              Sair
+            </Button>
           </div>
         </div>
+      </header>
 
-        {/* Dashboard Content */}
+      {/* ═══════════════════════ CONTENT ═══════════════════════ */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {renderDashboard()}
-      </div>
+      </main>
     </div>
   );
 
   // Dashboard específico para médicos
   function renderDoctorDashboard() {
     return (
-      <div className="space-y-8">
-        {/* Cards em Destaque - Grid de 2 colunas */}
+      <div className="space-y-8 animate-fade-in-up">
+        {/* Primary Action Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Atendimento - Fila */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg p-8 border border-emerald-700 shadow-lg">
-            <div className="flex items-center justify-between text-white">
-              <div className="flex-1">
-                <div className="flex items-center mb-4">
-                  <UserCheck className="h-10 w-10 mr-3" />
-                  <h2 className="text-3xl font-bold">Atendimento - Fila</h2>
+          <div className="med-card med-card-interactive overflow-hidden">
+            <div className="med-hero-primary p-8 text-white">
+              <div className="relative z-10">
+                <div className="med-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
+                  <UserCheck className="h-7 w-7" />
                 </div>
-                <p className="text-emerald-100 mb-6 text-lg">
-                  Chame e atenda pacientes da fila de espera walk-in. Visualize triagem, preencha prontuários e gere documentos.
+                <h2 className="text-2xl font-bold mb-2">Atendimento · Fila</h2>
+                <p className="text-white/80 mb-6 text-sm leading-relaxed">
+                  Chame e atenda pacientes da fila walk-in. Visualize triagem, preencha prontuários e gere documentos.
                 </p>
-                <Button 
-                  className="bg-white text-emerald-600 hover:bg-emerald-50 font-semibold px-6 py-3 text-lg"
+                <Button
+                  className="bg-white text-primary hover:bg-gray-50 font-semibold px-5"
                   onClick={() => setLocation('/fila-medico')}
                   data-testid="button-doctor-queue-main"
                 >
-                  <UserCheck className="mr-2 h-5 w-5" />
+                  <UserCheck className="mr-2 h-4 w-4" />
                   Atender Fila
                 </Button>
               </div>
@@ -423,22 +440,22 @@ export default function Home() {
           </div>
 
           {/* Internação */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-8 border border-indigo-700 shadow-lg">
-            <div className="flex items-center justify-between text-white">
-              <div className="flex-1">
-                <div className="flex items-center mb-4">
-                  <Bed className="h-10 w-10 mr-3" />
-                  <h2 className="text-3xl font-bold">Internação</h2>
+          <div className="med-card med-card-interactive overflow-hidden">
+            <div className="med-hero-secondary p-8 text-white">
+              <div className="relative z-10">
+                <div className="med-icon-wrap mb-5" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(8px)', color: '#fff', width: 56, height: 56, borderRadius: 18 }}>
+                  <Bed className="h-7 w-7" />
                 </div>
-                <p className="text-indigo-100 mb-6 text-lg">
-                  Gerenciamento de internações hospitalares, controle de leitos e registro de evoluções diárias dos pacientes.
+                <h2 className="text-2xl font-bold mb-2">Internação</h2>
+                <p className="text-white/80 mb-6 text-sm leading-relaxed">
+                  Gerenciamento de internações hospitalares, controle de leitos e registro de evoluções diárias.
                 </p>
-                <Button 
-                  className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold px-6 py-3 text-lg"
+                <Button
+                  className="bg-white text-secondary-foreground hover:bg-gray-50 font-semibold px-5"
                   onClick={() => setLocation('/internacao')}
                   data-testid="button-internacao-main"
                 >
-                  <Bed className="mr-2 h-5 w-5" />
+                  <Bed className="mr-2 h-4 w-4" />
                   Acessar Internação
                 </Button>
               </div>
@@ -474,7 +491,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <Button 
+              <Button
                 variant="outline"
                 className="border-amber-500 text-amber-700 hover:bg-amber-100"
                 onClick={() => setLocation('/farmacia')}
@@ -491,14 +508,14 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Consultas de Hoje - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Calendar className="h-10 w-10 text-blue-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Consultas de Hoje</h3>
               </div>
-              <p className="text-gray-600 mb-6">Visualize e gerencie suas consultas agendadas para hoje</p>
-              <Button 
-                className="w-full bg-blue-600 hover:bg-blue-700"
+              <p className="text-gray-500 mb-6">Visualize e gerencie suas consultas agendadas para hoje</p>
+              <Button
+                className="w-full px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
                 onClick={() => setLocation('/admin/appointments')}
                 data-testid="button-view-today-schedule"
               >
@@ -510,14 +527,14 @@ export default function Home() {
 
           {/* Prontuário Rápido - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Stethoscope className="h-10 w-10 text-amber-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Prontuário Rápido</h3>
               </div>
-              <p className="text-gray-600 mb-6">Registre atendimentos de forma rápida e prática</p>
-              <Button 
-                className="w-full bg-amber-600 hover:bg-amber-700"
+              <p className="text-gray-500 mb-6">Registre atendimentos de forma rápida e prática</p>
+              <Button
+                className="w-full px-4 py-2 border-0 bg-amber-600/10 text-amber-600 hover:bg-amber-600 hover:text-white transition-all font-medium rounded-xl"
                 onClick={() => setLocation('/prontuario-rapido')}
                 data-testid="button-quick-notes"
               >
@@ -528,15 +545,15 @@ export default function Home() {
           )}
 
           {/* Meus Pacientes */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <div className="med-card p-6 flex flex-col justify-between">
             <div className="flex items-center mb-4">
               <Users className="h-10 w-10 text-green-600" />
               <h3 className="text-xl font-semibold text-gray-900 ml-3">Meus Pacientes</h3>
             </div>
-            <p className="text-gray-600 mb-6">Acesse o histórico completo dos seus pacientes</p>
-            <Button 
+            <p className="text-gray-500 mb-6">Acesse o histórico completo dos seus pacientes</p>
+            <Button
               onClick={handleViewAllPatients}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full px-4 py-2 border-0 bg-green-600/10 text-green-600 hover:bg-green-600 hover:text-white transition-all font-medium rounded-xl"
               data-testid="button-my-patients"
             >
               <Users className="mr-2 h-4 w-4" />
@@ -546,15 +563,15 @@ export default function Home() {
 
           {/* Histórico Médico - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <FileText className="h-10 w-10 text-purple-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Histórico Médico</h3>
               </div>
-              <p className="text-gray-600 mb-6">Consulte registros e prontuários médicos</p>
-              <Button 
+              <p className="text-gray-500 mb-6">Consulte registros e prontuários médicos</p>
+              <Button
                 onClick={handleViewMedicalHistory}
-                className="w-full bg-purple-600 hover:bg-purple-700"
+                className="w-full px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-medical-history"
               >
                 <FileText className="mr-2 h-4 w-4" />
@@ -564,15 +581,15 @@ export default function Home() {
           )}
 
           {/* Documentos Médicos */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <div className="med-card p-6 flex flex-col justify-between">
             <div className="flex items-center mb-4">
               <FileText className="h-10 w-10 text-teal-600" />
               <h3 className="text-xl font-semibold text-gray-900 ml-3">Documentos Médicos</h3>
             </div>
-            <p className="text-gray-600 mb-6">Crie e gerencie receitas, atestados e relatórios médicos</p>
-            <Button 
+            <p className="text-gray-500 mb-6">Crie e gerencie receitas, atestados e relatórios médicos</p>
+            <Button
               onClick={() => setLocation('/documentos-medicos')}
-              className="w-full bg-teal-600 hover:bg-teal-700"
+              className="w-full px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
               data-testid="button-medical-documents"
             >
               <FileText className="mr-2 h-4 w-4" />
@@ -582,15 +599,15 @@ export default function Home() {
 
           {/* Suporte à Decisão - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <BarChart3 className="h-10 w-10 text-indigo-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Suporte à Decisão</h3>
               </div>
-              <p className="text-gray-600 mb-6">CID-10, protocolos clínicos, calculadoras médicas e verificação de interações</p>
-              <Button 
+              <p className="text-gray-500 mb-6">CID-10, protocolos clínicos, calculadoras médicas e verificação de interações</p>
+              <Button
                 onClick={() => setLocation('/suporte-clinico')}
-                className="w-full bg-indigo-600 hover:bg-indigo-700"
+                className="w-full px-4 py-2 border-0 bg-indigo-600/10 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-clinical-support"
               >
                 <BarChart3 className="mr-2 h-4 w-4" />
@@ -601,15 +618,15 @@ export default function Home() {
 
           {/* Templates de Anamnese - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <ClipboardList className="h-10 w-10 text-teal-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Templates de Anamnese</h3>
               </div>
-              <p className="text-gray-600 mb-6">Crie e personalize templates de anamnese por especialidade</p>
-              <Button 
+              <p className="text-gray-500 mb-6">Crie e personalize templates de anamnese por especialidade</p>
+              <Button
                 onClick={() => setLocation('/admin/anamnesis-templates')}
-                className="w-full bg-teal-600 hover:bg-teal-700"
+                className="w-full px-4 py-2 border-0 bg-teal-600/10 text-teal-600 hover:bg-teal-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-anamnesis-templates"
               >
                 <ClipboardList className="mr-2 h-4 w-4" />
@@ -620,15 +637,15 @@ export default function Home() {
 
           {/* Biblioteca de Protocolos Clínicos - não disponível para médicos */}
           {userRole !== 'doctor' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <BookOpen className="h-10 w-10 text-blue-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Protocolos Clínicos</h3>
               </div>
-              <p className="text-gray-600 mb-6">Biblioteca de protocolos e diretrizes médicas padronizadas</p>
-              <Button 
+              <p className="text-gray-500 mb-6">Biblioteca de protocolos e diretrizes médicas padronizadas</p>
+              <Button
                 onClick={() => setLocation('/admin/clinical-protocols')}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full px-4 py-2 border-0 bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-clinical-protocols"
               >
                 <BookOpen className="mr-2 h-4 w-4" />
@@ -640,15 +657,15 @@ export default function Home() {
 
           {/* Farmácia - Estoque de Medicamentos - apenas para admin */}
           {userRole === 'admin' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="med-card p-6 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <Pill className="h-10 w-10 text-rose-600" />
                 <h3 className="text-xl font-semibold text-gray-900 ml-3">Farmácia</h3>
               </div>
-              <p className="text-gray-600 mb-6">Gerencie estoque de medicamentos, lotes e dispensação</p>
-              <Button 
+              <p className="text-gray-500 mb-6">Gerencie estoque de medicamentos, lotes e dispensação</p>
+              <Button
                 onClick={() => setLocation('/farmacia')}
-                className="w-full bg-rose-600 hover:bg-rose-700"
+                className="w-full px-4 py-2 border-0 bg-rose-600/10 text-rose-600 hover:bg-rose-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-pharmacy"
               >
                 <Pill className="mr-2 h-4 w-4" />
@@ -660,10 +677,10 @@ export default function Home() {
         </div>
 
         {/* Interface de Abas para Médicos - Simplificada */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="med-card">
           <Tabs defaultValue={defaultTab} className="w-full">
             <div className="border-b border-gray-200 px-6 py-4">
-              <TabsList className="grid w-full max-w-full" style={{gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 5)}, minmax(0, 1fr))`}}>
+              <TabsList className="grid w-full max-w-full" style={{ gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 5)}, minmax(0, 1fr))` }}>
                 {visibleTabs.includes('booking') && (
                   <TabsTrigger value="booking" data-testid="tab-booking">
                     <Calendar className="mr-2 h-4 w-4" />
@@ -696,7 +713,7 @@ export default function Home() {
                 )}
               </TabsList>
             </div>
-            
+
             <div className="p-6">
               {renderMedicalTabContent()}
             </div>
@@ -711,109 +728,109 @@ export default function Home() {
     return (
       <>
         {visibleTabs.includes('booking') && (
-        <TabsContent value="booking" className="mt-0">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Novo Agendamento
-              </h2>
-              <p className="text-gray-600 mb-6">
-                Agende uma nova consulta médica. O sistema buscará automaticamente dados de pacientes existentes.
-              </p>
+          <TabsContent value="booking" className="mt-0">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  Novo Agendamento
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Agende uma nova consulta médica. O sistema buscará automaticamente dados de pacientes existentes.
+                </p>
+              </div>
+              <AppointmentForm />
             </div>
-            <AppointmentForm />
-          </div>
-        </TabsContent>
+          </TabsContent>
         )}
 
         {visibleTabs.includes('appointments') && (
-        <TabsContent value="appointments" className="mt-0">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Gerenciar Agendamentos
-              </h2>
-              <p className="text-gray-600 mb-6">
-                Visualize, edite e gerencie todos os agendamentos do hospital.
-              </p>
+          <TabsContent value="appointments" className="mt-0">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  Gerenciar Agendamentos
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Visualize, edite e gerencie todos os agendamentos do hospital.
+                </p>
+              </div>
+              <AppointmentTable />
             </div>
-            <AppointmentTable />
-          </div>
-        </TabsContent>
+          </TabsContent>
         )}
 
         {visibleTabs.includes('calendar') && (
-        <TabsContent value="calendar" className="mt-0">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Calendário Google - Exu Saúde - Sistema de Atendimento Médico
-              </h2>
-              <p className="text-gray-600 mb-6">
-                Visualize todos os agendamentos do hospital em tempo real no Google Calendar.
-              </p>
+          <TabsContent value="calendar" className="mt-0">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  Calendário Google - Exu Saúde - Sistema de Atendimento Médico
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Visualize todos os agendamentos do hospital em tempo real no Google Calendar.
+                </p>
+              </div>
+              <GoogleCalendar />
             </div>
-            <GoogleCalendar />
-          </div>
-        </TabsContent>
+          </TabsContent>
         )}
 
         {visibleTabs.includes('patients') && (
-        <TabsContent value="patients" className="mt-0">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  Meus Pacientes
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Visualize e gerencie informações dos seus pacientes cadastrados.
-                </p>
+          <TabsContent value="patients" className="mt-0">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                    Meus Pacientes
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    Visualize e gerencie informações dos seus pacientes cadastrados.
+                  </p>
+                </div>
+                <Button
+                  onClick={handleViewAllPatients}
+                  className="bg-blue-600 hover:bg-blue-700"
+                  data-testid="button-view-all-patients"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Ver Todos os Pacientes
+                </Button>
               </div>
-              <Button 
-                onClick={handleViewAllPatients}
-                className="bg-blue-600 hover:bg-blue-700"
-                data-testid="button-view-all-patients"
-              >
-                <Users className="mr-2 h-4 w-4" />
-                Ver Todos os Pacientes
-              </Button>
+              <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <p>Clique no botão acima para acessar a página completa de gerenciamento de pacientes</p>
+              </div>
             </div>
-            <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-              <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-              <p>Clique no botão acima para acessar a página completa de gerenciamento de pacientes</p>
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
         )}
 
         {visibleTabs.includes('medical-history') && (
-        <TabsContent value="medical-history" className="mt-0">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  Histórico Médico
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Gerencie registros médicos e histórico completo dos pacientes.
-                </p>
+          <TabsContent value="medical-history" className="mt-0">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                    Histórico Médico
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    Gerencie registros médicos e histórico completo dos pacientes.
+                  </p>
+                </div>
+                <Button
+                  onClick={handleViewMedicalHistory}
+                  className="bg-blue-600 hover:bg-blue-700"
+                  data-testid="button-view-medical-history"
+                >
+                  <FileText className="mr-2 h-4 w-4" />
+                  Gerenciar Histórico Médico
+                </Button>
               </div>
-              <Button 
-                onClick={handleViewMedicalHistory}
-                className="bg-blue-600 hover:bg-blue-700"
-                data-testid="button-view-medical-history"
-              >
-                <FileText className="mr-2 h-4 w-4" />
-                Gerenciar Histórico Médico
-              </Button>
+              <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <p>Clique no botão acima para acessar a página completa de gerenciamento do histórico médico</p>
+              </div>
             </div>
-            <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-              <p>Clique no botão acima para acessar a página completa de gerenciamento do histórico médico</p>
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
         )}
       </>
     );
@@ -832,9 +849,9 @@ export default function Home() {
                 <h3 className="text-lg font-semibold text-gray-900 ml-3">Pacientes</h3>
               </div>
               <p className="text-gray-600 mb-4">Acesse e gerencie informações dos pacientes</p>
-              <Button 
+              <Button
                 onClick={handleViewAllPatients}
-                className="w-full bg-purple-600 hover:bg-purple-700"
+                className="w-full px-4 py-2 border-0 bg-purple-600/10 text-purple-600 hover:bg-purple-600 hover:text-white transition-all font-medium rounded-xl"
                 data-testid="button-patients-quick"
               >
                 <Users className="mr-2 h-4 w-4" />
@@ -848,7 +865,7 @@ export default function Home() {
                 <h3 className="text-lg font-semibold text-gray-900 ml-3">Fila de Atendimento</h3>
               </div>
               <p className="text-gray-600 mb-4">Gerencie a fila de pacientes walk-in</p>
-              <Button 
+              <Button
                 onClick={() => setLocation('/gestao-fila')}
                 className="w-full bg-orange-600 hover:bg-orange-700"
                 data-testid="button-queue-management"
@@ -939,10 +956,10 @@ export default function Home() {
         )}
 
         {/* Interface de Abas */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="med-card">
           <Tabs defaultValue={defaultTab} className="w-full">
             <div className="border-b border-gray-200 px-6 py-4">
-              <TabsList className="grid w-full max-w-full" style={{gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 10)}, minmax(0, 1fr))`}}>
+              <TabsList className="grid w-full max-w-full" style={{ gridTemplateColumns: `repeat(${Math.min(visibleTabs.length, 10)}, minmax(0, 1fr))` }}>
                 {visibleTabs.includes('booking') && (
                   <TabsTrigger value="booking" data-testid="tab-booking">
                     <Calendar className="mr-2 h-4 w-4" />
@@ -1014,315 +1031,315 @@ export default function Home() {
 
             <div className="p-6">
               {visibleTabs.includes('booking') && (
-              <TabsContent value="booking" className="mt-0">
-                <div className="space-y-6">
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                      Novo Agendamento
-                    </h2>
-                    <p className="text-gray-600 mb-6">
-                      Agende uma nova consulta médica. O sistema buscará automaticamente dados de pacientes existentes.
-                    </p>
+                <TabsContent value="booking" className="mt-0">
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                        Novo Agendamento
+                      </h2>
+                      <p className="text-gray-600 mb-6">
+                        Agende uma nova consulta médica. O sistema buscará automaticamente dados de pacientes existentes.
+                      </p>
+                    </div>
+                    <AppointmentForm />
                   </div>
-                  <AppointmentForm />
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('appointments') && (
-              <TabsContent value="appointments" className="mt-0">
-                <div className="space-y-6">
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                      Gerenciar Agendamentos
-                    </h2>
-                    <p className="text-gray-600 mb-6">
-                      Visualize, edite e gerencie todos os agendamentos do hospital.
-                    </p>
+                <TabsContent value="appointments" className="mt-0">
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                        Gerenciar Agendamentos
+                      </h2>
+                      <p className="text-gray-600 mb-6">
+                        Visualize, edite e gerencie todos os agendamentos do hospital.
+                      </p>
+                    </div>
+                    <AppointmentTable />
                   </div>
-                  <AppointmentTable />
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('calendar') && (
-              <TabsContent value="calendar" className="mt-0">
-                <div className="space-y-6">
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                      Calendário Google - Hospital Regional Fernando Bezerra
-                    </h2>
-                    <p className="text-gray-600 mb-6">
-                      Visualize todos os agendamentos do hospital em tempo real no Google Calendar.
-                    </p>
+                <TabsContent value="calendar" className="mt-0">
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                        Calendário Google - Hospital Regional Fernando Bezerra
+                      </h2>
+                      <p className="text-gray-600 mb-6">
+                        Visualize todos os agendamentos do hospital em tempo real no Google Calendar.
+                      </p>
+                    </div>
+                    <GoogleCalendar />
                   </div>
-                  <GoogleCalendar />
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('patients') && (
-              <TabsContent value="patients" className="mt-0">
-                <div className="space-y-6">
-                  {userRole === 'doctor' ? (
-                    // Versão simplificada para médicos
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                            Meus Pacientes
-                          </h2>
-                          <p className="text-gray-600 mb-6">
-                            Consulte informações dos pacientes da sua especialidade: {(user as any)?.medicalSpecialty}.
-                          </p>
+                <TabsContent value="patients" className="mt-0">
+                  <div className="space-y-6">
+                    {userRole === 'doctor' ? (
+                      // Versão simplificada para médicos
+                      <div>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                              Meus Pacientes
+                            </h2>
+                            <p className="text-gray-600 mb-6">
+                              Consulte informações dos pacientes da sua especialidade: {(user as any)?.medicalSpecialty}.
+                            </p>
+                          </div>
+                          <Button
+                            onClick={handleViewAllPatients}
+                            className="bg-blue-600 hover:bg-blue-700"
+                            data-testid="button-view-my-patients"
+                          >
+                            <Users className="mr-2 h-4 w-4" />
+                            Ver Meus Pacientes
+                          </Button>
                         </div>
-                        <Button 
-                          onClick={handleViewAllPatients}
-                          className="bg-blue-600 hover:bg-blue-700"
-                          data-testid="button-view-my-patients"
-                        >
-                          <Users className="mr-2 h-4 w-4" />
-                          Ver Meus Pacientes
-                        </Button>
-                      </div>
-                      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                        <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                        <p>Acesse informações dos pacientes que passaram por consultas na especialidade de {(user as any)?.medicalSpecialty}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    // Versão completa para admin/staff
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                            Gerenciar Pacientes
-                          </h2>
-                          <p className="text-gray-600 mb-6">
-                            Visualize e gerencie informações de todos os pacientes cadastrados no sistema.
-                          </p>
+                        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                          <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                          <p>Acesse informações dos pacientes que passaram por consultas na especialidade de {(user as any)?.medicalSpecialty}</p>
                         </div>
-                        <Button 
-                          onClick={handleViewAllPatients}
-                          className="bg-blue-600 hover:bg-blue-700"
-                          data-testid="button-view-all-patients"
-                        >
-                          <Users className="mr-2 h-4 w-4" />
-                          Ver Todos os Pacientes
-                        </Button>
                       </div>
-                      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                        <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                        <p>Clique no botão acima para acessar a página completa de gerenciamento de pacientes</p>
+                    ) : (
+                      // Versão completa para admin/staff
+                      <div>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                              Gerenciar Pacientes
+                            </h2>
+                            <p className="text-gray-600 mb-6">
+                              Visualize e gerencie informações de todos os pacientes cadastrados no sistema.
+                            </p>
+                          </div>
+                          <Button
+                            onClick={handleViewAllPatients}
+                            className="bg-blue-600 hover:bg-blue-700"
+                            data-testid="button-view-all-patients"
+                          >
+                            <Users className="mr-2 h-4 w-4" />
+                            Ver Todos os Pacientes
+                          </Button>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                          <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                          <p>Clique no botão acima para acessar a página completa de gerenciamento de pacientes</p>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
+                    )}
+                  </div>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('medical-history') && (
-              <TabsContent value="medical-history" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Histórico Médico
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Gerencie registros médicos e histórico completo dos pacientes do hospital.
-                      </p>
+                <TabsContent value="medical-history" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Histórico Médico
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Gerencie registros médicos e histórico completo dos pacientes do hospital.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewMedicalHistory}
+                        className="bg-blue-600 hover:bg-blue-700"
+                        data-testid="button-view-medical-history"
+                      >
+                        <FileText className="mr-2 h-4 w-4" />
+                        Gerenciar Histórico Médico
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewMedicalHistory}
-                      className="bg-blue-600 hover:bg-blue-700"
-                      data-testid="button-view-medical-history"
-                    >
-                      <FileText className="mr-2 h-4 w-4" />
-                      Gerenciar Histórico Médico
-                    </Button>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar a página completa de gerenciamento do histórico médico</p>
+                    </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar a página completa de gerenciamento do histórico médico</p>
-                  </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('reports') && (
-              <TabsContent value="reports" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Relatórios e Análises
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Visualize relatórios detalhados de agendamentos por período, especialidade e zona geográfica.
-                      </p>
+                <TabsContent value="reports" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Relatórios e Análises
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Visualize relatórios detalhados de agendamentos por período, especialidade e zona geográfica.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewReports}
+                        className="bg-blue-600 hover:bg-blue-700"
+                        data-testid="button-view-reports"
+                      >
+                        <BarChart3 className="mr-2 h-4 w-4" />
+                        Acessar Relatórios
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewReports}
-                      className="bg-blue-600 hover:bg-blue-700"
-                      data-testid="button-view-reports"
-                    >
-                      <BarChart3 className="mr-2 h-4 w-4" />
-                      Acessar Relatórios
-                    </Button>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar a página completa de relatórios e análises</p>
+                    </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar a página completa de relatórios e análises</p>
-                  </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('satisfaction') && (
-              <TabsContent value="satisfaction" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Pesquisas de Satisfação
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Gerencie pesquisas de satisfação enviadas via WhatsApp para avaliar atendimento e consultas médicas.
-                      </p>
+                <TabsContent value="satisfaction" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Pesquisas de Satisfação
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Gerencie pesquisas de satisfação enviadas via WhatsApp para avaliar atendimento e consultas médicas.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewSatisfaction}
+                        className="bg-purple-600 hover:bg-purple-700"
+                        data-testid="button-view-satisfaction"
+                      >
+                        <Star className="mr-2 h-4 w-4" />
+                        Gerenciar Pesquisas
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewSatisfaction}
-                      className="bg-purple-600 hover:bg-purple-700"
-                      data-testid="button-view-satisfaction"
-                    >
-                      <Star className="mr-2 h-4 w-4" />
-                      Gerenciar Pesquisas
-                    </Button>
-                  </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <Star className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar a página completa de pesquisas de satisfação</p>
-                    <div className="mt-4 text-sm text-gray-400">
-                      <p>• Pesquisas pré-consulta (avaliação do atendimento)</p>
-                      <p>• Pesquisas pós-consulta (avaliação da consulta médica)</p>
-                      <p>• Envio automático via WhatsApp</p>
-                      <p>• Relatórios e analytics de satisfação</p>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <Star className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar a página completa de pesquisas de satisfação</p>
+                      <div className="mt-4 text-sm text-gray-400">
+                        <p>• Pesquisas pré-consulta (avaliação do atendimento)</p>
+                        <p>• Pesquisas pós-consulta (avaliação da consulta médica)</p>
+                        <p>• Envio automático via WhatsApp</p>
+                        <p>• Relatórios e analytics de satisfação</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('whatsapp') && (
-              <TabsContent value="whatsapp" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Integração WhatsApp Business
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Configure e gerencie o envio de lembretes automáticos via WhatsApp para os pacientes.
-                      </p>
+                <TabsContent value="whatsapp" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Integração WhatsApp Business
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Configure e gerencie o envio de lembretes automáticos via WhatsApp para os pacientes.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewWhatsApp}
+                        className="bg-green-600 hover:bg-green-700"
+                        data-testid="button-view-whatsapp"
+                      >
+                        <MessageCircle className="mr-2 h-4 w-4" />
+                        Acessar WhatsApp
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewWhatsApp}
-                      className="bg-green-600 hover:bg-green-700"
-                      data-testid="button-view-whatsapp"
-                    >
-                      <MessageCircle className="mr-2 h-4 w-4" />
-                      Acessar WhatsApp
-                    </Button>
-                  </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <MessageCircle className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar a página completa de gerenciamento do WhatsApp</p>
-                    <div className="mt-4 text-sm text-gray-400">
-                      <p>• Envio automático de confirmações</p>
-                      <p>• Lembretes 24h antes da consulta</p>
-                      <p>• Lembretes no dia da consulta</p>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <MessageCircle className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar a página completa de gerenciamento do WhatsApp</p>
+                      <div className="mt-4 text-sm text-gray-400">
+                        <p>• Envio automático de confirmações</p>
+                        <p>• Lembretes 24h antes da consulta</p>
+                        <p>• Lembretes no dia da consulta</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('users') && (
-              <TabsContent value="users" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Gerenciamento de Usuários
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Gerencie usuários do sistema, permissões e configurações de acesso.
-                      </p>
+                <TabsContent value="users" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Gerenciamento de Usuários
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Gerencie usuários do sistema, permissões e configurações de acesso.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewUsers}
+                        className="bg-purple-600 hover:bg-purple-700"
+                        data-testid="button-view-users"
+                      >
+                        <Shield className="mr-2 h-4 w-4" />
+                        Gerenciar Usuários
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewUsers}
-                      className="bg-purple-600 hover:bg-purple-700"
-                      data-testid="button-view-users"
-                    >
-                      <Shield className="mr-2 h-4 w-4" />
-                      Gerenciar Usuários
-                    </Button>
-                  </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <Shield className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar a página completa de gerenciamento de usuários</p>
-                    <div className="mt-4 text-sm text-gray-400">
-                      <p>• Criar e editar usuários do sistema</p>
-                      <p>• Gerenciar permissões (Admin, Funcionário, Visualizador)</p>
-                      <p>• Alterar senhas e configurações de acesso</p>
-                      <p>• Controle de segurança e auditoria</p>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <Shield className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar a página completa de gerenciamento de usuários</p>
+                      <div className="mt-4 text-sm text-gray-400">
+                        <p>• Criar e editar usuários do sistema</p>
+                        <p>• Gerenciar permissões (Admin, Funcionário, Visualizador)</p>
+                        <p>• Alterar senhas e configurações de acesso</p>
+                        <p>• Controle de segurança e auditoria</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('security') && (
-              <TabsContent value="security" className="mt-0">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        Dashboard de Segurança
-                      </h2>
-                      <p className="text-gray-600 mb-6">
-                        Monitore eventos de segurança, tentativas de login e ameaças do sistema.
-                      </p>
+                <TabsContent value="security" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          Dashboard de Segurança
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                          Monitore eventos de segurança, tentativas de login e ameaças do sistema.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={handleViewSecurity}
+                        className="bg-red-600 hover:bg-red-700"
+                        data-testid="button-view-security"
+                      >
+                        <Shield className="mr-2 h-4 w-4" />
+                        Acessar Dashboard
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={handleViewSecurity}
-                      className="bg-red-600 hover:bg-red-700"
-                      data-testid="button-view-security"
-                    >
-                      <Shield className="mr-2 h-4 w-4" />
-                      Acessar Dashboard
-                    </Button>
-                  </div>
-                  <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
-                    <Shield className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <p>Clique no botão acima para acessar o dashboard completo de monitoramento de segurança</p>
-                    <div className="mt-4 text-sm text-gray-400">
-                      <p>• Detecção de tentativas de login suspeitas</p>
-                      <p>• Alertas em tempo real para eventos críticos</p>
-                      <p>• Análise de ameaças por IP</p>
-                      <p>• Rate limiting e proteção contra ataques</p>
-                      <p>• Auditoria completa de atividades</p>
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-500">
+                      <Shield className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <p>Clique no botão acima para acessar o dashboard completo de monitoramento de segurança</p>
+                      <div className="mt-4 text-sm text-gray-400">
+                        <p>• Detecção de tentativas de login suspeitas</p>
+                        <p>• Alertas em tempo real para eventos críticos</p>
+                        <p>• Análise de ameaças por IP</p>
+                        <p>• Rate limiting e proteção contra ataques</p>
+                        <p>• Auditoria completa de atividades</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
               )}
 
               {visibleTabs.includes('beds') && (
-              <TabsContent value="beds" className="mt-0">
-                <WardManagement />
-              </TabsContent>
+                <TabsContent value="beds" className="mt-0">
+                  <WardManagement />
+                </TabsContent>
               )}
 
             </div>

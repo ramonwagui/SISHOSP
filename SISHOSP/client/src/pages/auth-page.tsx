@@ -92,23 +92,26 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="fade-in min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex">
+    <div className="ag-anim-fade-scale min-h-screen bg-slate-50 flex">
 
       {/* Painel esquerdo — funcionalidades */}
-      <div className="login-left-panel hidden lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-12">
-        <div className="text-white">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold">Exu Saúde</h1>
-            <p className="text-blue-100 mt-1">Sistema de Atendimento Médico</p>
+      <div className="login-left-panel hidden lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-12 ag-hero-primary shadow-[20px_0_40px_rgba(0,0,0,0.1)] z-10">
+        <div className="text-white relative z-10">
+          <div className="mb-10 text-center">
+            <div className="ag-icon-wrap bg-white/20 backdrop-blur-md mx-auto mb-6 h-20 w-20 rounded-2xl shadow-lg">
+              <Shield className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight">Exu Saúde</h1>
+            <p className="text-blue-100 mt-2 font-medium">Sistema de Atendimento Médico</p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-md mx-auto">
             {features.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="flex items-start space-x-4">
-                <Icon className="h-8 w-8 text-blue-200 mt-1 flex-shrink-0" />
+              <div key={title} className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/10 hover:bg-white/20 transition-all">
+                <Icon className="h-7 w-7 text-white/90 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="text-xl font-semibold mb-1">{title}</h3>
-                  <p className="text-blue-100">{desc}</p>
+                  <h3 className="text-lg font-semibold mb-1 text-white">{title}</h3>
+                  <p className="text-blue-100 text-sm leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
@@ -135,77 +138,78 @@ export default function AuthPage() {
           </div>
 
           {/* Card de login */}
-          <Card>
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl font-bold text-gray-900">Bem-vindo</CardTitle>
-              <CardDescription>Acesse o sistema de atendimento médico</CardDescription>
-              <div className="flex justify-center pt-1">
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600 border border-blue-200">
+          <div className="ag-card p-8 mb-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Bem-vindo</h2>
+              <p className="text-gray-500 text-sm mb-4">Acesse o sistema de atendimento médico</p>
+              <div className="flex justify-center">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600 border border-blue-100">
                   {APP_VERSION}
                 </span>
               </div>
-            </CardHeader>
-            <CardContent>
-              <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-4">
+            </div>
 
-                  <FormField
-                    control={loginForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Nome de usuário"
-                            data-testid="input-username"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            <Form {...loginForm}>
+              <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-5">
 
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="Senha"
-                            data-testid="input-password"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={loginForm.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Nome de usuário"
+                          className="h-12 bg-white/50 border-gray-200 focus:ring-blue-500 transition-all rounded-xl"
+                          data-testid="input-username"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={loginMutation.isPending}
-                    data-testid="button-login"
+                <FormField
+                  control={loginForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="Senha"
+                          className="h-12 bg-white/50 border-gray-200 focus:ring-blue-500 transition-all rounded-xl"
+                          data-testid="input-password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  className="w-full h-12 ag-btn-glow bg-blue-600/10 text-blue-600 hover:bg-blue-600 hover:text-white border-0 transition-all font-medium rounded-xl"
+                  disabled={loginMutation.isPending}
+                  data-testid="button-login"
+                >
+                  {loginMutation.isPending ? "Entrando..." : "Entrar"}
+                </Button>
+
+                <div className="text-center pt-2">
+                  <a
+                    href="/esqueci-senha"
+                    className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                    data-testid="link-forgot-password"
                   >
-                    {loginMutation.isPending ? "Entrando..." : "Entrar"}
-                  </Button>
-
-                  <div className="text-center">
-                    <a
-                      href="/esqueci-senha"
-                      className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
-                      data-testid="link-forgot-password"
-                    >
-                      Esqueci minha senha
-                    </a>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+                    Esqueci minha senha
+                  </a>
+                </div>
+              </form>
+            </Form>
+          </div>
         </div>
       </div>
     </div>

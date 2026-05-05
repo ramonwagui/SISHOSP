@@ -1,178 +1,857 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   MEDICINA DESIGN SYSTEM — SISHOSP v4.0
+   Modern Clinical Interface · Healthcare-First Design
+   ============================================================ */
+
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(210 25% 7.8431%);
-  --card: hsl(180 6.6667% 97.0588%);
-  --card-foreground: hsl(210 25% 7.8431%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(210 25% 7.8431%);
-  --primary: hsl(203.8863 88.2845% 53.1373%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(210 25% 7.8431%);
-  --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(240 1.9608% 90%);
-  --muted-foreground: hsl(210 25% 7.8431%);
-  --accent: hsl(211.5789 51.3514% 92.7451%);
-  --accent-foreground: hsl(203.8863 88.2845% 53.1373%);
-  --destructive: hsl(356.3033 90.5579% 54.3137%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(201.4286 30.4348% 90.9804%);
-  --input: hsl(200 23.0769% 97.4510%);
-  --ring: hsl(202.8169 89.1213% 53.1373%);
-  --chart-1: hsl(203.8863 88.2845% 53.1373%);
-  --chart-2: hsl(159.7826 100% 36.0784%);
-  --chart-3: hsl(42.0290 92.8251% 56.2745%);
-  --chart-4: hsl(147.1429 78.5047% 41.9608%);
-  --chart-5: hsl(341.4894 75.2000% 50.9804%);
-  --sidebar: hsl(180 6.6667% 97.0588%);
-  --sidebar-foreground: hsl(210 25% 7.8431%);
-  --sidebar-primary: hsl(203.8863 88.2845% 53.1373%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(211.5789 51.3514% 92.7451%);
-  --sidebar-accent-foreground: hsl(203.8863 88.2845% 53.1373%);
-  --sidebar-border: hsl(205.0000 25.0000% 90.5882%);
-  --sidebar-ring: hsl(202.8169 89.1213% 53.1373%);
-  --font-sans: Inter, system-ui, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
-  --radius: 1.3rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 1px 2px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 1px 2px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 2px 4px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 4px 6px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 8px 10px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
+  /* ═══════════════════════════════════════════════════════
+     DESIGN TOKENS — Medical Grade Precision
+     ═══════════════════════════════════════════════════════ */
   
-  /* Medical theme colors */
-  --medical-blue: hsl(213.6 92.3% 55.3%);
-  --medical-green: hsl(159.4 76.2% 39.8%);
-  --medical-light: hsl(210 20% 98%);
-  --medical-gray: hsl(215.4 16.3% 46.9%);
+  /* Semantic Colors - Medical Context */
+  --color-primary: hsl(212 92% 48%);
+  --color-primary-light: hsl(212 92% 58%);
+  --color-primary-dark: hsl(212 92% 38%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  
+  --color-secondary: hsl(160 60% 45%);
+  --color-secondary-light: hsl(160 60% 55%);
+  --color-secondary-dark: hsl(160 60% 35%);
+  --color-secondary-foreground: hsl(0 0% 100%);
+  
+  --color-accent: hsl(260 60% 55%);
+  --color-accent-light: hsl(260 60% 65%);
+  --color-accent-dark: hsl(260 60% 45%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  
+  --color-warning: hsl(38 92% 55%);
+  --color-warning-light: hsl(38 92% 65%);
+  --color-warning-dark: hsl(38 92% 45%);
+  --color-warning-foreground: hsl(0 0% 0%);
+  
+  --color-danger: hsl(350 85% 55%);
+  --color-danger-light: hsl(350 85% 65%);
+  --color-danger-dark: hsl(350 85% 45%);
+  --color-danger-foreground: hsl(0 0% 100%);
+  
+  --color-success: hsl(145 65% 45%);
+  --color-success-light: hsl(145 65% 55%);
+  --color-success-dark: hsl(145 65% 35%);
+  --color-success-foreground: hsl(0 0% 100%);
+  
+  --color-info: hsl(195 85% 55%);
+  --color-info-light: hsl(195 85% 65%);
+  --color-info-dark: hsl(195 85% 45%);
+  --color-info-foreground: hsl(0 0% 100%);
+  
+  /* Neutrals - Healthcare Clean */
+  --color-gray-50: hsl(210 20% 98%);
+  --color-gray-100: hsl(210 16% 96%);
+  --color-gray-200: hsl(210 14% 90%);
+  --color-gray-300: hsl(210 12% 80%);
+  --color-gray-400: hsl(210 10% 65%);
+  --color-gray-500: hsl(210 10% 50%);
+  --color-gray-600: hsl(210 12% 40%);
+  --color-gray-700: hsl(215 15% 28%);
+  --color-gray-800: hsl(215 20% 18%);
+  --color-gray-900: hsl(215 25% 10%);
+  --color-gray-950: hsl(220 25% 5%);
+  
+  /* Surface Colors */
+  --background: var(--color-gray-50);
+  --foreground: var(--color-gray-900);
+  --card: hsl(0 0% 100%);
+  --card-foreground: var(--color-gray-800);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: var(--color-gray-800);
+  
+  /* Component Colors */
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-primary-foreground);
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-secondary-foreground);
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-500);
+  --accent: var(--color-accent);
+  --accent-foreground: var(--color-accent-foreground);
+  --destructive: var(--color-danger);
+  --destructive-foreground: var(--color-danger-foreground);
+  
+  /* Border & Input */
+  --border: var(--color-gray-200);
+  --input: var(--color-gray-100);
+  --ring: var(--color-primary);
+  
+  /* Charts */
+  --chart-1: var(--color-primary);
+  --chart-2: var(--color-secondary);
+  --chart-3: var(--color-warning);
+  --chart-4: var(--color-accent);
+  --chart-5: var(--color-danger);
+  
+  /* Sidebar */
+  --sidebar: hsl(215 25% 8%);
+  --sidebar-foreground: var(--color-gray-100);
+  --sidebar-primary: var(--color-primary);
+  --sidebar-primary-foreground: var(--color-primary-foreground);
+  --sidebar-accent: hsl(215 25% 12%);
+  --sidebar-accent-foreground: var(--color-gray-100);
+  --sidebar-border: hsl(215 25% 15%);
+  --sidebar-ring: var(--color-primary);
+  
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  
+  /* Sizing - Precise Healthcare Spacing */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+  --radius: var(--radius-lg);
+  
+  /* Shadows - Layered Depth */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-none: none;
+  
+  /* Transitions - Smooth Medical Interactions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Z-Index Scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* Focus Ring */
+  --focus-ring: 0 0 0 3px rgba(51, 133, 255, 0.4);
+  --focus-ring-offset: 0 0 0 3px rgba(51, 133, 255, 0.2);
 }
 
+/* Dark Mode - Medical Night Shift */
 .dark {
-  --background: hsl(0 0% 0%);
-  --foreground: hsl(200 6.6667% 91.1765%);
-  --card: hsl(228 9.8039% 10%);
-  --card-foreground: hsl(0 0% 85.0980%);
-  --popover: hsl(0 0% 0%);
-  --popover-foreground: hsl(200 6.6667% 91.1765%);
-  --primary: hsl(203.7736 87.6033% 52.5490%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(195.0000 15.3846% 94.9020%);
-  --secondary-foreground: hsl(210 25% 7.8431%);
-  --muted: hsl(0 0% 9.4118%);
-  --muted-foreground: hsl(210 3.3898% 46.2745%);
-  --accent: hsl(205.7143 70% 7.8431%);
-  --accent-foreground: hsl(203.7736 87.6033% 52.5490%);
-  --destructive: hsl(356.3033 90.5579% 54.3137%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(210 5.2632% 14.9020%);
-  --input: hsl(207.6923 27.6596% 18.4314%);
-  --ring: hsl(202.8169 89.1213% 53.1373%);
-  --chart-1: hsl(203.8863 88.2845% 53.1373%);
-  --chart-2: hsl(159.7826 100% 36.0784%);
-  --chart-3: hsl(42.0290 92.8251% 56.2745%);
-  --chart-4: hsl(147.1429 78.5047% 41.9608%);
-  --chart-5: hsl(341.4894 75.2000% 50.9804%);
-  --sidebar: hsl(228 9.8039% 10%);
-  --sidebar-foreground: hsl(0 0% 85.0980%);
-  --sidebar-primary: hsl(202.8169 89.1213% 53.1373%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(205.7143 70% 7.8431%);
-  --sidebar-accent-foreground: hsl(203.7736 87.6033% 52.5490%);
-  --sidebar-border: hsl(205.7143 15.7895% 26.0784%);
-  --sidebar-ring: hsl(202.8169 89.1213% 53.1373%);
-  --font-sans: Inter, system-ui, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
-  --radius: 1.3rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 1px 2px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 1px 2px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 2px 4px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 4px 6px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00), 0px 8px 10px -1px hsl(202.8169 89.1213% 53.1373% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
+  --background: hsl(220 18% 6%);
+  --foreground: hsl(210 20% 95%);
+  
+  --card: hsl(220 18% 8%);
+  --card-foreground: hsl(210 20% 90%);
+  --popover: hsl(220 18% 10%);
+  --popover-foreground: hsl(210 20% 90%);
+  
+  --primary: var(--color-primary-light);
+  --primary-foreground: hsl(0 0% 0%);
+  --secondary: var(--color-secondary-light);
+  --secondary-foreground: hsl(0 0% 0%);
+  --muted: hsl(220 15% 12%);
+  --muted-foreground: hsl(210 10% 65%);
+  --accent: var(--color-accent-light);
+  --accent-foreground: hsl(0 0% 0%);
+  --destructive: var(--color-danger-light);
+  --destructive-foreground: hsl(0 0% 0%);
+  
+  --border: hsl(215 15% 15%);
+  --input: hsl(215 15% 12%);
+  --ring: var(--color-primary-light);
+  
+  --sidebar: hsl(220 18% 4%);
+  --sidebar-foreground: hsl(210 20% 90%);
+  --sidebar-primary: var(--color-primary-light);
+  --sidebar-primary-foreground: hsl(0 0% 0%);
+  --sidebar-accent: hsl(220 18% 8%);
+  --sidebar-accent-foreground: hsl(210 20% 90%);
+  --sidebar-border: hsl(215 15% 12%);
+  --sidebar-ring: var(--color-primary-light);
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
   }
 }
 
-/* Status Badge Colors */
+@layer components {
+  /* ─────────────────────────────────────────────────────────
+     MEDICINA DESIGN SYSTEM COMPONENTS
+     ───────────────────────────────────────────────────────── */
+  
+  /* Card - Clean Medical Surface */
+  .med-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .med-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-gray-300);
+  }
+
+  .med-card-interactive {
+    cursor: pointer;
+  }
+
+  .med-card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Hero Banners - Gradient Backgrounds */
+  .med-hero-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-secondary {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-accent {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-warning {
+    background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-success {
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-danger {
+    background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-danger-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .med-hero-primary::before,
+  .med-hero-secondary::before,
+  .med-hero-accent::before,
+  .med-hero-warning::before,
+  .med-hero-success::before,
+  .med-hero-danger::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 80%;
+    height: 160%;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Header - Modern Navigation */
+  .med-header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-xs);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Icon Wrapper */
+  .med-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+    transition: all var(--transition-base);
+  }
+
+  .med-icon-wrap-sm {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+  }
+
+  .med-icon-wrap-lg {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Button Variants */
+  .med-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .med-btn:focus-visible {
+    box-shadow: var(--focus-ring);
+  }
+
+  .med-btn-primary {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  .med-btn-primary:hover {
+    background: var(--color-primary-dark);
+  }
+
+  .med-btn-secondary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+  }
+
+  .med-btn-secondary:hover {
+    background: var(--color-gray-200);
+  }
+
+  .med-btn-ghost {
+    background: transparent;
+    color: var(--color-gray-600);
+  }
+
+  .med-btn-ghost:hover {
+    background: var(--color-gray-100);
+    color: var(--color-gray-900);
+  }
+
+  .med-btn-danger {
+    background: var(--color-danger);
+    color: var(--color-danger-foreground);
+  }
+
+  .med-btn-danger:hover {
+    background: var(--color-danger-dark);
+  }
+
+  /* Input Fields */
+  .med-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    outline: none;
+  }
+
+  .med-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+  }
+
+  .med-input::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  /* Badge - Status Indicators */
+  .med-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    line-height: 1;
+  }
+
+  .med-badge-success {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--color-success-dark);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  .med-badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning-dark);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+
+  .med-badge-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger-dark);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .med-badge-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--color-primary-dark);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .med-badge-neutral {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  /* Navigation */
+  .med-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    text-decoration: none;
+  }
+
+  .med-nav-link:hover {
+    background: var(--color-gray-100);
+    color: var(--color-gray-900);
+  }
+
+  .med-nav-link-active {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  .med-nav-link-active:hover {
+    background: var(--color-primary-dark);
+    color: var(--color-primary-foreground);
+  }
+
+  /* Tabs */
+  .med-tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .med-tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-500);
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-base);
+  }
+
+  .med-tab:hover {
+    color: var(--color-gray-700);
+  }
+
+  .med-tab-active {
+    color: var(--color-primary);
+  }
+
+  .med-tab-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Progress Bar */
+  .med-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .med-progress-bar {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+  }
+
+  /* Skeleton Loading */
+  .med-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-gray-200) 25%,
+      var(--color-gray-100) 50%,
+      var(--color-gray-200) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--radius-md);
+  }
+
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Divider */
+  .med-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+
+  /* Tooltip */
+  .med-tooltip {
+    position: relative;
+  }
+
+  .med-tooltip-content {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 0.75rem;
+    background: var(--color-gray-900);
+    color: white;
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-fast);
+    z-index: var(--z-tooltip);
+    margin-bottom: 0.5rem;
+  }
+
+  .med-tooltip:hover .med-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Status Dot */
+  .med-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .med-status-dot-success {
+    background: var(--color-success);
+  }
+
+  .med-status-dot-warning {
+    background: var(--color-warning);
+  }
+
+  .med-status-dot-danger {
+    background: var(--color-danger);
+  }
+
+  .med-status-dot-neutral {
+    background: var(--color-gray-400);
+  }
+
+  /* Avatar */
+  .med-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    overflow: hidden;
+  }
+
+  .med-avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+
+  .med-avatar-lg {
+    width: 56px;
+    height: 56px;
+    font-size: 1.125rem;
+  }
+
+  /* List Item */
+  .med-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+    cursor: pointer;
+  }
+
+  .med-list-item:hover {
+    background: var(--color-gray-50);
+  }
+}
+
+/* Animations - Healthcare Grade Motion */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn var(--transition-base) ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--transition-slow) ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown var(--transition-slow) ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--transition-spring) ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight var(--transition-slow) ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft var(--transition-slow) ease-out forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+/* Animation Delays */
+.delay-75 { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-225 { animation-delay: 225ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Stagger animations for lists */
+.stagger-animation > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-animation > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-animation > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-animation > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-animation > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-animation > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-animation > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-animation > *:nth-child(8) { animation-delay: 350ms; }
+
+/* ─────────────────────────────────────────────────────────
+   STATUS BADGES - Legacy Support
+   ───────────────────────────────────────────────────────── */
 .badge-scheduled {
-  @apply bg-blue-100 text-blue-800 border-blue-200;
+  @apply bg-blue-50 text-blue-700 border border-blue-200 rounded-md font-medium text-xs;
 }
 
 .badge-rescheduled {
-  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+  @apply bg-amber-50 text-amber-700 border border-amber-200 rounded-md font-medium text-xs;
 }
 
 .badge-completed {
-  @apply bg-green-100 text-green-800 border-green-200;
+  @apply bg-green-50 text-green-700 border border-green-200 rounded-md font-medium text-xs;
 }
 
 .badge-cancelled {
-  @apply bg-red-100 text-red-800 border-red-200;
+  @apply bg-red-50 text-red-700 border border-red-200 rounded-md font-medium text-xs;
 }
 
-/* Status Select Options */
-.status-scheduled {
-  @apply text-blue-700 hover:bg-blue-50;
+/* ─────────────────────────────────────────────────────────
+   SCROLLBAR - Clinical Clean
+   ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.status-rescheduled {
-  @apply text-yellow-700 hover:bg-yellow-50;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.status-completed {
-  @apply text-green-700 hover:bg-green-50;
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 4px;
 }
 
-.status-cancelled {
-  @apply text-red-700 hover:bg-red-50;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
 }
 
-/* Medical theme utilities */
-.medical-gradient {
-  background: linear-gradient(135deg, var(--medical-blue) 0%, #3b82f6 100%);
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
-.medical-green-gradient {
-  background: linear-gradient(135deg, var(--medical-green) 0%, #059669 100%);
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) transparent;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
+/* ─────────────────────────────────────────────────────────
+   SELECTION - Brand Accent
+   ───────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: white;
 }
 
-.fade-in {
-  animation: fadeIn 0.65s ease-out both;
-}
-
+/* ─────────────────────────────────────────────────────────
+   LOGIN DECORATION - Left Panel
+   ───────────────────────────────────────────────────────── */
 .login-left-panel {
   position: relative;
-  background:
-    radial-gradient(ellipse 70% 60% at 15% 110%, rgba(29,78,216,0.7) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 80% at 95% -10%, rgba(96,165,250,0.25) 0%, transparent 65%),
-    #2563eb;
+  background: linear-gradient(145deg, var(--color-primary), var(--color-primary-dark));
   overflow: hidden;
 }
 
@@ -181,8 +860,127 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
   pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────
+   UTILITY CLASSES
+   ───────────────────────────────────────────────────────── */
+.text-balance {
+  text-wrap: balance;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   BACKWARD COMPATIBILITY - Legacy Class Names
+   ═══════════════════════════════════════════════════════════ */
+.ag-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.ag-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gray-300);
+}
+
+.ag-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ag-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+}
+
+.ag-btn-glow {
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.ag-btn-glow:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.ag-btn-glow:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.ag-hero-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ag-hero-emerald {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ag-hero-primary::before,
+.ag-hero-emerald::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 80%;
+  height: 160%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ag-anim-float-in {
+  animation: fadeInUp var(--transition-slow) ease-out forwards;
+}
+
+.ag-anim-fade-scale {
+  animation: scaleIn var(--transition-spring) ease-out forwards;
+}
+
+.ag-delay-1 { animation-delay: 50ms; }
+.ag-delay-2 { animation-delay: 100ms; }
+.ag-delay-3 { animation-delay: 150ms; }
+
+.ag-float {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.ag-float:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
